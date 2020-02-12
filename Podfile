@@ -8,6 +8,7 @@ target 'LoginPart' do
 
   # Pods for LoginPart
   pod 'JQCollectionViewAlignLayout'
+  pod 'WSLWaterFlowLayout'
   pod 'WMZBanner'
   pod 'BRPickerView'
   pod 'SDWebImage', '~> 5.0'

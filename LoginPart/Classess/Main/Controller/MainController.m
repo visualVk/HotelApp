@@ -13,6 +13,7 @@
 #import "MainController.h"
 #import "BannerCell.h"
 #import "CustomSectionCell.h"
+#import "HotCell.h"
 #import "ImageReFreshHeader.h"
 #import "MainPrefixHeader.h"
 #import "MarkUtils.h"
@@ -33,6 +34,7 @@
 @property (nonatomic, strong) QMUITableView *tableview;
 @property (nonatomic, strong) NSArray *imageList;
 @property (nonatomic, strong) QMUIButton *bottomBtn;
+@property(nonatomic, strong) UICollectionView *hotCollectionview;
 //@property (nonatomic, strong) UICollectionView *collectionview;
 
 @end
@@ -123,7 +125,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (tableView == self.tableview) {
     //            return self.keywords.count;
-    return 100;
+    return 5;
   }
   return self.searchResultsKeywords.count;
 }
@@ -159,6 +161,11 @@
     } else if (indexPath.row == 3) {
       SelectionCell *scell = [tableView dequeueReusableCellWithIdentifier:@"selectioncell"];
       return scell;
+    } else if (indexPath.row == 4) {
+      HotCell *hCell = [tableView dequeueReusableCellWithIdentifier:@"hotcell"];
+      self.hotCollectionview = hCell.collectionview;
+      hCell.scrollview = self.tableview;
+      return hCell;
     } else {
       NSMutableString *str = [[NSMutableString alloc] init];
       for (int i = 0; i < 100; i++) { [str appendString:@"string"]; }
@@ -272,6 +279,11 @@ updateResultsForSearchString:(NSString *)searchString {
   }
   [self.navigationController.navigationBar.qmui_backgroundView
    setAlpha:(point.y + NavigationContentTop + 12) / NavigationBarHeight];
+  QMUILogInfo(@"scroll height",@"scroll.y=%f,height=%f,isEqual=%d",point.y,DEVICE_HEIGHT-StatusBarHeight,point.y == DEVICE_HEIGHT - NavigationContentTop);
+  if(ABS(point.y-DEVICE_HEIGHT+StatusBarHeight) <= 0.000001){
+    self.hotCollectionview.userInteractionEnabled = YES;
+    scrollView.userInteractionEnabled = false;
+  }
   //  QMUILogInfo(@"table view content offset", @"navtop:%f,y:%f,alpha:%f",
   //              point.y + NavigationContentTop, NavigationBarHeightt,
   //              self.navigationController.navigationBar.qmui_backgroundContentView.alpha);
@@ -312,6 +324,7 @@ updateResultsForSearchString:(NSString *)searchString {
   [self.tableview registerClass:[CustomSectionCell class] forCellReuseIdentifier:@"sectioncell"];
   [self.tableview registerClass:[TicketCell class] forCellReuseIdentifier:@"ticketcell"];
   [self.tableview registerClass:[SelectionCell class] forCellReuseIdentifier:@"selectioncell"];
+  [self.tableview registerClass:[HotCell class] forCellReuseIdentifier:@"hotcell"];
   @weakify(self);
   ImageReFreshHeader *imageHeader = [ImageReFreshHeader headerWithRefreshingBlock:^{
     @strongify(self);
