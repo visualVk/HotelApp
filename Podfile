@@ -7,6 +7,13 @@ target 'LoginPart' do
   use_frameworks!
 
   # Pods for LoginPart
+  pod 'JQCollectionViewAlignLayout'
+  pod 'WMZBanner'
+  pod 'BRPickerView'
+  pod 'SDWebImage', '~> 5.0'
+  pod 'JTCalendar', '~> 2.0'
+  pod 'MJRefresh'
+  pod 'TYCyclePagerView'
   pod 'ReactiveObjC'
   pod 'MJExtension'
   pod 'AFNetworking', '~> 3.0'

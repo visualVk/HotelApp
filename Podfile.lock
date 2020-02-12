@@ -14,8 +14,23 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - BRPickerView (2.5.3):
+    - BRPickerView/AddressPickerView (= 2.5.3)
+    - BRPickerView/Base (= 2.5.3)
+    - BRPickerView/DatePickerView (= 2.5.3)
+    - BRPickerView/StringPickerView (= 2.5.3)
+  - BRPickerView/AddressPickerView (2.5.3):
+    - BRPickerView/Base
+  - BRPickerView/Base (2.5.3)
+  - BRPickerView/DatePickerView (2.5.3):
+    - BRPickerView/Base
+  - BRPickerView/StringPickerView (2.5.3):
+    - BRPickerView/Base
+  - JQCollectionViewAlignLayout (0.1.5)
+  - JTCalendar (2.2.5)
   - Masonry (1.1.0)
   - MJExtension (3.2.1)
+  - MJRefresh (3.3.1)
   - QMUIKit (4.0.4):
     - QMUIKit/QMUIComponents (= 4.0.4)
     - QMUIKit/QMUICore (= 4.0.4)
@@ -308,32 +323,59 @@ PODS:
   - QMUIKit/QMUIWeakObjectContainer (4.0.4)
   - ReactiveObjC (3.1.1)
   - SAMKeychain (1.5.3)
+  - SDWebImage (5.5.2):
+    - SDWebImage/Core (= 5.5.2)
+  - SDWebImage/Core (5.5.2)
+  - TYCyclePagerView (1.2.0)
+  - WMZBanner (1.1.0):
+    - SDWebImage
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
+  - BRPickerView
+  - JQCollectionViewAlignLayout
+  - JTCalendar (~> 2.0)
   - Masonry
   - MJExtension
+  - MJRefresh
   - QMUIKit
   - ReactiveObjC
   - SAMKeychain
+  - SDWebImage (~> 5.0)
+  - TYCyclePagerView
+  - WMZBanner
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
+    - BRPickerView
+    - JQCollectionViewAlignLayout
+    - JTCalendar
     - Masonry
     - MJExtension
+    - MJRefresh
     - QMUIKit
     - ReactiveObjC
     - SAMKeychain
+    - SDWebImage
+    - TYCyclePagerView
+    - WMZBanner
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  BRPickerView: c23447ce60d40a4109eb6c93b0cec3a96bf1726c
+  JQCollectionViewAlignLayout: d44142c09e6ba96cc874ac5014ff64accb8995ce
+  JTCalendar: 4056fd48735e1148b487acad35d72faea2387b25
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: 635f2c663dcb1bf76fa4b715b2570a5710aec545
+  MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
   QMUIKit: 73899f707bdd51f44d16e10d11f224fb821fbe74
   ReactiveObjC: 011caa393aa0383245f2dcf9bf02e86b80b36040
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
+  SDWebImage: 4d5c027c935438f341ed33dbac53ff9f479922ca
+  TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
+  WMZBanner: fb8f5905097d76d54bf780087b3f131071bfe773
 
-PODFILE CHECKSUM: 131ce55db57de7cc25c503d1852cdc4b48fc0bc2
+PODFILE CHECKSUM: 40d108e7f416e307fe3ba36bd7718e2852a99969
 
 COCOAPODS: 1.8.4

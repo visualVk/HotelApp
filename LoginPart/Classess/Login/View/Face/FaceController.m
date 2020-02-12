@@ -11,9 +11,9 @@
 #import "ASFCameraController.h"
 #import "ASFRManager.h"
 #import "ASFVideoProcessor.h"
+#import "MainController.h"
 #import "NSObject+BlockSEL.h"
 #import "UserViewModel.h"
-#import "ViewController.h"
 
 @interface FaceController () <ASFCameraControllerDelegate, ASFVideoProcessorDelegate> {
   ASF_CAMERA_DATA *_offscreenIn;
@@ -175,8 +175,12 @@ didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer
      dismissViewControllerAnimated:YES
      completion:^{
       /// todo: 切换到主界面
+      MainController *con = [MainController new];
+      QMUINavigationController *nav =
+      [[QMUINavigationController alloc] initWithRootViewController:con];
+      nav.modalPresentationStyle = UIModalPresentationFullScreen;
       [[[UIApplication sharedApplication].windows firstObject]
-       .rootViewController presentViewController:[ViewController new]
+       .rootViewController presentViewController:nav
        animated:YES
        completion:nil];
     }];

@@ -9,5 +9,5 @@
 #ifndef MarkUtils_h
 #define MarkUtils_h
 #define addView(pa, sub) [pa addSubview:sub]
-
+#define frameAndBounds(rect) @"frame:(height:%f,width:%f),bounds:(height:%f,width:%f)",CGRectGetHeight(rect.frame),CGRectGetWidth(rect.frame),CGRectGetHeight(rect.bounds),CGRectGetWidth(rect.bounds)
 #endif /* MarkUtils_h */

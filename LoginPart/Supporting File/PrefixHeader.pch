@@ -13,6 +13,9 @@
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 #define ASF_APPID            @"ExHdKzwAUfqQexuec8epvd4GjXzpG9xQoUYGVkqYQAff"
 #define ASF_SDKKEY           @"4JDK1fswMDxj6ENVRTbw3gWrWXLBsHCRySvxjeDMeERN"
+#define SPACE DEVICE_WIDTH * 0.05
+#import "ImageUtils.h"
+#import "GenerateEntityDelegate.h"
 #import "MJExtension.h"
 #import "DictUtils.h"
 #import "DomainDefine.h"
