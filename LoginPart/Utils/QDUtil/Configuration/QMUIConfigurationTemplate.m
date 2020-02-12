@@ -138,7 +138,7 @@ static UIImage *disclosureIndicatorImageDark;
 #pragma mark - SearchBar
     
     QMUICMI.searchBarTextFieldBackgroundImage = UIImage.qd_searchBarTextFieldBackgroundImage;       // SearchBarTextFieldBackgroundImage : QMUISearchBar 里的文本框的背景图，图片高度会决定输入框的高度
-    QMUICMI.searchBarTextFieldBorderColor = nil;                                // SearchBarTextFieldBorderColor : QMUISearchBar 里的文本框的边框颜色
+    QMUICMI.searchBarTextFieldBorderColor = UIColorGray;                                // SearchBarTextFieldBorderColor : QMUISearchBar 里的文本框的边框颜色
     QMUICMI.searchBarBackgroundImage = UIImage.qd_searchBarBackgroundImage;     // SearchBarBackgroundImage : 搜索框的背景图，如果需要设置底部分隔线的颜色也请绘制到图片里
     QMUICMI.searchBarTintColor = UIColor.qd_tintColor;                          // SearchBarTintColor : QMUISearchBar 的 tintColor，也即上面的操作控件的主题色
     QMUICMI.searchBarTextColor = UIColor.qd_titleTextColor;                                  // SearchBarTextColor : QMUISearchBar 里的文本框的文字颜色
@@ -151,7 +151,7 @@ static UIImage *disclosureIndicatorImageDark;
     QMUICMI.searchBarFont = nil;                                                // SearchBarFont : QMUISearchBar 里的文本框的文字字体及 placeholder 的字体
     QMUICMI.searchBarSearchIconImage = nil;                                     // SearchBarSearchIconImage : QMUISearchBar 里的放大镜 icon
     QMUICMI.searchBarClearIconImage = nil;                                      // SearchBarClearIconImage : QMUISearchBar 里的文本框输入文字时右边的清空按钮的图片
-    QMUICMI.searchBarTextFieldCornerRadius = 4.0;                               // SearchBarTextFieldCornerRadius : QMUISearchBar 里的文本框的圆角大小，-1 表示圆角大小为输入框高度的一半
+    QMUICMI.searchBarTextFieldCornerRadius = -1;                               // SearchBarTextFieldCornerRadius : QMUISearchBar 里的文本框的圆角大小，-1 表示圆角大小为输入框高度的一半
     
 #pragma mark - TableView / TableViewCell
     
@@ -276,6 +276,10 @@ static UIImage *disclosureIndicatorImageDark;
 
 - (UIColor *)themeBackgroundColorHighlighted {
     return UIColorMake(238, 239, 241);
+}
+
+-(UIColor *)themeSearchBarBackgroundColor{
+  return UIColor.whiteColor;
 }
 
 - (UIColor *)themeTintColor {

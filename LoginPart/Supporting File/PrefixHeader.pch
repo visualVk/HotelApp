@@ -14,6 +14,9 @@
 #define ASF_APPID            @"ExHdKzwAUfqQexuec8epvd4GjXzpG9xQoUYGVkqYQAff"
 #define ASF_SDKKEY           @"4JDK1fswMDxj6ENVRTbw3gWrWXLBsHCRySvxjeDMeERN"
 #define SPACE DEVICE_WIDTH * 0.05
+#define TITLEFONTSIZE 16
+#define TITLEPLACE 15
+#define TITLELITE 14
 #import "ImageUtils.h"
 #import "GenerateEntityDelegate.h"
 #import "MJExtension.h"

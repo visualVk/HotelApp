@@ -18,6 +18,7 @@
 #import "MarkUtils.h"
 #import "NSObject+BlockSEL.h"
 #import "SearchView.h"
+#import "SelectionCell.h"
 #import "TicketCell.h"
 
 @interface MainController () <QMUISearchControllerDelegate> {
@@ -155,6 +156,9 @@
       [tCell reloadData];
       QMUILogInfo(@"ticket cell", frameAndBounds(tCell));
       return tCell;
+    } else if (indexPath.row == 3) {
+      SelectionCell *scell = [tableView dequeueReusableCellWithIdentifier:@"selectioncell"];
+      return scell;
     } else {
       NSMutableString *str = [[NSMutableString alloc] init];
       for (int i = 0; i < 100; i++) { [str appendString:@"string"]; }
@@ -296,8 +300,6 @@ updateResultsForSearchString:(NSString *)searchString {
   self.mySearchController.searchBar.qmui_usedAsTableHeaderView = YES;
   self.mySearchController.active                               = NO;
   [self.mySearchController.searchBar setValue:@"取消" forKey:@"cancelButtonText"];
-  UISearchBar *tmpSearchBar = self.mySearchController.searchBar;
-  NSArray *viewArr = tmpSearchBar.subviews;
   self.tableview                                = [QMUITableView new];
   self.tableview.contentInsetAdjustmentBehavior = NO;
   self.tableview.estimatedRowHeight             = 44;
@@ -309,6 +311,7 @@ updateResultsForSearchString:(NSString *)searchString {
   [self.tableview registerClass:[BannerCell class] forCellReuseIdentifier:@"bannercell"];
   [self.tableview registerClass:[CustomSectionCell class] forCellReuseIdentifier:@"sectioncell"];
   [self.tableview registerClass:[TicketCell class] forCellReuseIdentifier:@"ticketcell"];
+  [self.tableview registerClass:[SelectionCell class] forCellReuseIdentifier:@"selectioncell"];
   @weakify(self);
   ImageReFreshHeader *imageHeader = [ImageReFreshHeader headerWithRefreshingBlock:^{
     @strongify(self);

@@ -77,7 +77,9 @@
 		A7F9E2C923EAF2D900A50C60 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F9E2C823EAF2D900A50C60 /* TextFieldCell.m */; };
 		A7F9E2CC23EAF59F00A50C60 /* TextFieldAndButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F9E2CB23EAF59F00A50C60 /* TextFieldAndButtonCell.m */; };
 		A7FAEA2323F3ACB0001FA3AD /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2223F3ACB0001FA3AD /* ImageUtils.m */; };
-		A7FAEA2723F3BE7D001FA3AD /* TitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2623F3BE7D001FA3AD /* TitleView.m */; };
+		A7FAEA2723F3BE7D001FA3AD /* TitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2623F3BE7D001FA3AD /* TitleCell.m */; };
+		A7FAEA2A23F3D301001FA3AD /* SelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2923F3D301001FA3AD /* SelectionCell.m */; };
+		A7FAEA2D23F3FA2B001FA3AD /* HotCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2C23F3FA2B001FA3AD /* HotCell.m */; };
 		A7FCC8E423F2706E00E240BD /* TicketCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FCC8E323F2706E00E240BD /* TicketCell.m */; };
 		A7FCC8E623F28D7700E240BD /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7FCC8E523F28D7700E240BD /* Storyboard.storyboard */; };
 		F84F7D81B83DF22878DC7B67 /* Pods_LoginPartTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 12BBAD1FA4916F947F72ECF0 /* Pods_LoginPartTests.framework */; };
@@ -258,8 +260,12 @@
 		A7F9E2CB23EAF59F00A50C60 /* TextFieldAndButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextFieldAndButtonCell.m; sourceTree = "<group>"; };
 		A7FAEA2123F3ACB0001FA3AD /* ImageUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
 		A7FAEA2223F3ACB0001FA3AD /* ImageUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
-		A7FAEA2523F3BE7D001FA3AD /* TitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TitleView.h; sourceTree = "<group>"; };
-		A7FAEA2623F3BE7D001FA3AD /* TitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TitleView.m; sourceTree = "<group>"; };
+		A7FAEA2523F3BE7D001FA3AD /* TitleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TitleCell.h; sourceTree = "<group>"; };
+		A7FAEA2623F3BE7D001FA3AD /* TitleCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TitleCell.m; sourceTree = "<group>"; };
+		A7FAEA2823F3D301001FA3AD /* SelectionCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectionCell.h; sourceTree = "<group>"; };
+		A7FAEA2923F3D301001FA3AD /* SelectionCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SelectionCell.m; sourceTree = "<group>"; };
+		A7FAEA2B23F3FA2B001FA3AD /* HotCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotCell.h; sourceTree = "<group>"; };
+		A7FAEA2C23F3FA2B001FA3AD /* HotCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotCell.m; sourceTree = "<group>"; };
 		A7FCC8E223F2706E00E240BD /* TicketCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TicketCell.h; sourceTree = "<group>"; };
 		A7FCC8E323F2706E00E240BD /* TicketCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TicketCell.m; sourceTree = "<group>"; };
 		A7FCC8E523F28D7700E240BD /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
@@ -768,8 +774,12 @@
 				A700161723F165D0009BA6F8 /* CustomSectionCell.m */,
 				A7FCC8E223F2706E00E240BD /* TicketCell.h */,
 				A7FCC8E323F2706E00E240BD /* TicketCell.m */,
-				A7FAEA2523F3BE7D001FA3AD /* TitleView.h */,
-				A7FAEA2623F3BE7D001FA3AD /* TitleView.m */,
+				A7FAEA2523F3BE7D001FA3AD /* TitleCell.h */,
+				A7FAEA2623F3BE7D001FA3AD /* TitleCell.m */,
+				A7FAEA2823F3D301001FA3AD /* SelectionCell.h */,
+				A7FAEA2923F3D301001FA3AD /* SelectionCell.m */,
+				A7FAEA2B23F3FA2B001FA3AD /* HotCell.h */,
+				A7FAEA2C23F3FA2B001FA3AD /* HotCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1162,9 +1172,10 @@
 				A725179423E84A18003B6E1F /* ASFRPerson.m in Sources */,
 				A725171923E8469B003B6E1F /* QDUIHelper.m in Sources */,
 				A7840FB423E9A1D700EA54F8 /* RightArrowButton.m in Sources */,
+				A7FAEA2D23F3FA2B001FA3AD /* HotCell.m in Sources */,
 				A725175F23E846CE003B6E1F /* ASFCameraController.m in Sources */,
 				A725176423E846CE003B6E1F /* IDInfoViewController.m in Sources */,
-				A7FAEA2723F3BE7D001FA3AD /* TitleView.m in Sources */,
+				A7FAEA2723F3BE7D001FA3AD /* TitleCell.m in Sources */,
 				A725172623E846B7003B6E1F /* ColorFormatUtil.m in Sources */,
 				A725171B23E8469B003B6E1F /* QDCommonUI.m in Sources */,
 				A725176C23E846CE003B6E1F /* RectManager.m in Sources */,
@@ -1198,6 +1209,7 @@
 				A7B5FF6523E95D9500A65558 /* FaceController.m in Sources */,
 				A7F9E2BC23EA8FC900A50C60 /* PhoneVertifyController.m in Sources */,
 				A725176123E846CE003B6E1F /* UIAlertController+Extend.m in Sources */,
+				A7FAEA2A23F3D301001FA3AD /* SelectionCell.m in Sources */,
 				A7FCC8E423F2706E00E240BD /* TicketCell.m in Sources */,
 				A725176023E846CE003B6E1F /* ASFVideoProcessor.mm in Sources */,
 				A72516CE23E83DFB003B6E1F /* main.m in Sources */,

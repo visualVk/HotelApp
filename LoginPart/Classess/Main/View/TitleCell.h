@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TitleView : UIView
+@interface TitleCell : UICollectionViewCell <GenerateEntityDelegate>
 @property(nonatomic, strong) UILabel *title;
 @property(nonatomic, strong) QMUIButton *moreBtn;
 @end
