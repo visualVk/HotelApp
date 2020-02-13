@@ -7,6 +7,7 @@ target 'LoginPart' do
   use_frameworks!
 
   # Pods for LoginPart
+  pod 'TIMFlowView'
   pod 'JQCollectionViewAlignLayout'
   pod 'WSLWaterFlowLayout'
   pod 'WMZBanner'

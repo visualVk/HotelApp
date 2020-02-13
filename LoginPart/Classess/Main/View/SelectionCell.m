@@ -134,21 +134,12 @@ UICollectionViewDelegate, JQCollectionViewAlignLayoutDelegate>
   }];
 //  SECONDTYPESECTIONHEIGHT*FIRSTROW + FIRSTTYPESECTIONHEIGHT*SECONDROW + 2 *(FIRSTROW + SECONDROW);
   self.collectionview.layer.cornerRadius = (SECONDTYPESECTIONHEIGHT + FIRSTTYPESECTIONHEIGHT + 2) / 50;
-  self.collectionview.layer.masksToBounds = true;
-  self.collectionview.clipsToBounds = true;
-  
-  UIView *shadowView = [UIView new];
-  insertViewBelow(self.contentView, shadowView, self.collectionview);
-  [shadowView mas_makeConstraints:^(MASConstraintMaker *make){
-    make.edges.equalTo(self.collectionview);
-  }];
-  shadowView.layer.shadowColor = UIColor.qd_mainTextColor.CGColor;
-  shadowView.backgroundColor = UIColor.qd_placeholderColor;
-  shadowView.layer.shadowOffset = CGSizeMake(3, 3);
-  shadowView.layer.shadowRadius = self.collectionview.layer.cornerRadius;
-  shadowView.layer.shadowOpacity = 0.4;
-  shadowView.layer.cornerRadius = self.collectionview.layer.cornerRadius;
-  shadowView.layer.masksToBounds = false;
+  self.collectionview.layer.shadowOffset  = CGSizeMake(0, 1);
+  self.collectionview.layer.shadowColor   = [[UIColor blackColor] CGColor];
+  self.collectionview.layer.shadowRadius  = self.collectionview.layer.cornerRadius;
+  self.collectionview.layer.shadowOpacity = 0.25;
+  self.collectionview.clipsToBounds       = false;
+  self.collectionview.layer.masksToBounds = false;
 
 }
 

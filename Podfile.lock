@@ -326,6 +326,7 @@ PODS:
   - SDWebImage (5.5.2):
     - SDWebImage/Core (= 5.5.2)
   - SDWebImage/Core (5.5.2)
+  - TIMFlowView (1.0.0)
   - TYCyclePagerView (1.2.0)
   - WMZBanner (1.1.0):
     - SDWebImage
@@ -343,6 +344,7 @@ DEPENDENCIES:
   - ReactiveObjC
   - SAMKeychain
   - SDWebImage (~> 5.0)
+  - TIMFlowView
   - TYCyclePagerView
   - WMZBanner
   - WSLWaterFlowLayout
@@ -360,6 +362,7 @@ SPEC REPOS:
     - ReactiveObjC
     - SAMKeychain
     - SDWebImage
+    - TIMFlowView
     - TYCyclePagerView
     - WMZBanner
     - WSLWaterFlowLayout
@@ -376,10 +379,11 @@ SPEC CHECKSUMS:
   ReactiveObjC: 011caa393aa0383245f2dcf9bf02e86b80b36040
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   SDWebImage: 4d5c027c935438f341ed33dbac53ff9f479922ca
+  TIMFlowView: 4a3fde9e9673a9cf88498e672795a1996459480b
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   WMZBanner: fb8f5905097d76d54bf780087b3f131071bfe773
   WSLWaterFlowLayout: 37cfcb9c483b24144cd5c34c2cef4586ae6eef97
 
-PODFILE CHECKSUM: b74766bb3998d1014182d67b4a5b50b1e1337cae
+PODFILE CHECKSUM: d73d2f3dd45094dccf4d3ff82eb84625f62c7cf5
 
 COCOAPODS: 1.8.4

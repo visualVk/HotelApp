@@ -9,5 +9,6 @@
 #import <QMUIKit/QMUIKit.h>
 
 @interface MainController : QMUICommonViewController
+@property (nonatomic, strong) QMUITableView *tableview;
 
 @end

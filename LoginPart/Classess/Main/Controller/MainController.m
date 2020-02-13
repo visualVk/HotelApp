@@ -5,13 +5,9 @@
 //  Created by blacksky on 2020/2/7.
 //  Copyright © 2020 blacksky. All rights reserved.
 //
-
-#define FifthHeight UIScreen.mainScreen.bounds.size.height / 5
-#define ForthHeight UIScreen.mainScreen.bounds.size.height / 4
-#define TenthHeight UIScreen.mainScreen.bounds.size.height / 10
-#define FifteenthHeight UIScreen.mainScreen.bounds.size.height / 10
 #import "MainController.h"
 #import "BannerCell.h"
+#import "BannerView.h"
 #import "CustomSectionCell.h"
 #import "HotCell.h"
 #import "ImageReFreshHeader.h"
@@ -21,9 +17,19 @@
 #import "SearchView.h"
 #import "SelectionCell.h"
 #import "TicketCell.h"
+#define FifthHeight UIScreen.mainScreen.bounds.size.height / 5
+#define ForthHeight UIScreen.mainScreen.bounds.size.height / 4
+#define TenthHeight UIScreen.mainScreen.bounds.size.height / 10
+#define FifteenthHeight UIScreen.mainScreen.bounds.size.height / 10
+#define OFFSETY DEVICE_HEIGHT / 10 + 44
+#define SAFETOPINSET SafeAreaInsetsConstantForDeviceWithNotch.bottom
+#define SAFEBOTTOMINSET SafeAreaInsetsConstantForDeviceWithNotch.top
+#define SAFEHEIGHT DEVICE_HEIGHT - SAFETOPINSET - SAFEBOTTOMINSET
+#define TOPNOTIFICATION @"topnotification"
 
-@interface MainController () <QMUISearchControllerDelegate> {
-  CGFloat ticketHeight;
+@interface MainController () <QMUISearchControllerDelegate, UIGestureRecognizerDelegate> {
+  CGFloat offsetHeight;
+  Boolean isEnableScroll;
 }
 @property (nonatomic, strong) NSArray<NSString *> *keywords;
 @property (nonatomic, strong) NSMutableArray<NSString *> *searchResultsKeywords;
@@ -31,10 +37,12 @@
 @property (nonatomic, assign) UIStatusBarStyle statusBarStyle;
 @property (nonatomic, strong) SearchView *searchView;
 @property (nonatomic, strong) UIView *cview;
-@property (nonatomic, strong) QMUITableView *tableview;
 @property (nonatomic, strong) NSArray *imageList;
 @property (nonatomic, strong) QMUIButton *bottomBtn;
-@property(nonatomic, strong) UICollectionView *hotCollectionview;
+@property (nonatomic, strong) UICollectionView *hotCollectionview;
+@property (nonatomic, assign) CGFloat totHeight;
+@property (nonatomic, assign) Boolean okFlag;
+@property (nonatomic, assign) CGPoint curContentOffset;
 //@property (nonatomic, strong) UICollectionView *collectionview;
 
 @end
@@ -44,6 +52,7 @@
 - (void)didInitialize {
   [super didInitialize];
   // init 时做的事情请写在这里
+  self.okFlag     = true;
   self.searchView = [SearchView new];
   self.keywords   = @[
     @"Helps", @"Maintain", @"Liver", @"Health", @"Function", @"Supports", @"Healthy", @"Fat",
@@ -77,16 +86,26 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+  [self.navigationController.navigationBar.qmui_backgroundView setAlpha:0];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+  @weakify(self);
+  [RACObserve(self.tableview, qmui_currentCellHeightKeyCache) subscribeNext:^(id x) {
+    @strongify(self);
+    QMUICellHeightCache *cache = x;
+    CGFloat curHeight;
+    self.totHeight = ForthHeight + FifteenthHeight / 2;
+    for (int i = 0; i < 5; ++i) {
+      curHeight = [cache heightForKey:@(i)];
+      self.totHeight += curHeight;
+    }
+  }];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
   [super viewWillDisappear:animated];
-  //设置tableview边距使tableview出现在navgation bar后面
-  //    self.tableview.contentInset = UIEdgeInsetsMake(-44, 0, 0, 0);
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -95,7 +114,6 @@
 
 - (void)viewDidLayoutSubviews {
   [super viewDidLayoutSubviews];
-  //      [self.tableview setContentOffset:CGPointMake(0, -100)];
 }
 
 - (void)setupNavigationItems {
@@ -103,6 +121,7 @@
   self.title                    = @"首页";
   self.navigationItem.titleView = self.mySearchController.searchBar;
   //  self.navigationController.navigationBar.hidden = YES;
+  self.navigationController.navigationBar.opaque               = YES;
   self.mySearchController.hidesNavigationBarDuringPresentation = NO;
   //  QMUICMI.searchBarTextFieldBackgroundImage = [UIImage new];
   //  UIImage.qd_searchBarTextFieldBackgroundImage
@@ -125,7 +144,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   if (tableView == self.tableview) {
     //            return self.keywords.count;
-    return 5;
+    return 6;
   }
   return self.searchResultsKeywords.count;
 }
@@ -141,30 +160,36 @@
   if (tableView == self.tableview) {
     //    cell.textLabel.text = self.keywords[indexPath.row];
     if (indexPath.row == 0) {
-      BannerCell *bCell = [tableView dequeueReusableCellWithIdentifier:@"bannercell"];
-      bCell.datas       = self.imageList;
-      //      [bCell updateCellAppearanceWithIndexPath:indexPath];
-      [bCell loadData];
-      return bCell;
+      //      BannerCell *bCell = [tableView dequeueReusableCellWithIdentifier:@"bannercell"];
+      //      bCell.datas       = self.imageList;
+      //      //      [bCell updateCellAppearanceWithIndexPath:indexPath];
+      //      [bCell loadData];
+      return [QMUITableViewCell new];
     } else if (indexPath.row == 1) {
-      CustomSectionCell *cCell = [tableView dequeueReusableCellWithIdentifier:@"sectioncell"];
+      CustomSectionCell *cCell =
+      [tableView dequeueReusableCellWithIdentifier:@"sectioncell" forIndexPath:indexPath];
       //      cCell.frame = self.view.bounds;
       //      [cCell layoutIfNeeded];
       //      [cCell updateCellAppearanceWithIndexPath:indexPath];
       QMUILogInfo(@"custom cell", @"height:%f", CGRectGetHeight(cCell.contentView.frame));
       return cCell;
     } else if (indexPath.row == 2) {
-      TicketCell *tCell = [tableView dequeueReusableCellWithIdentifier:@"ticketcell"];
+      TicketCell *tCell =
+      [tableView dequeueReusableCellWithIdentifier:@"ticketcell" forIndexPath:indexPath];
       [tCell reloadData];
       QMUILogInfo(@"ticket cell", frameAndBounds(tCell));
       return tCell;
     } else if (indexPath.row == 3) {
-      SelectionCell *scell = [tableView dequeueReusableCellWithIdentifier:@"selectioncell"];
+      SelectionCell *scell =
+      [tableView dequeueReusableCellWithIdentifier:@"selectioncell" forIndexPath:indexPath];
       return scell;
     } else if (indexPath.row == 4) {
-      HotCell *hCell = [tableView dequeueReusableCellWithIdentifier:@"hotcell"];
+      return [QMUITableViewCell new];
+    } else if (indexPath.row == 5) {
+      HotCell *hCell =
+      [tableView dequeueReusableCellWithIdentifier:@"hotcell" forIndexPath:indexPath];
+      hCell.tableview        = self.tableview;
       self.hotCollectionview = hCell.collectionview;
-      hCell.scrollview = self.tableview;
       return hCell;
     } else {
       NSMutableString *str = [[NSMutableString alloc] init];
@@ -195,8 +220,15 @@
   [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+  BannerView *banner = [BannerView new];
+  banner.datas       = self.imageList;
+  [banner loadData];
+  return banner;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return 0;
+  return ForthHeight + FifteenthHeight / 2 + 10;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -204,22 +236,21 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.row == 0 && indexPath.section == 0) {
-    return ForthHeight + FifteenthHeight / 2 + 10;
-  }
+  //  if (indexPath.row == 0 && indexPath.section == 0) {
+  //    return ForthHeight + FifteenthHeight / 2 + 10;
+  //  }
   //      else if (indexPath.row == 2) {
   //        return DEVICE_WIDTH * 0.5;
   //      }
-  return UITableViewAutomaticDimension;
+  //  return UITableViewAutomaticDimension;
+  return -1;
 }
 
-//- (id<NSCopying>)qmui_tableView:(UITableView *)tableView cacheKeyForRowAtIndexPath:(NSIndexPath
-//*)indexPath{
-//  if(indexPath.row == 0){
-//    return @(self.imageList.count);
-//  }
-//  return @(indexPath.row);
-//}
+- (id<NSCopying>)qmui_tableView:(UITableView *)tableView
+      cacheKeyForRowAtIndexPath:(NSIndexPath *)indexPath {
+  //  if (indexPath.row == 0) { return @(self.imageList.count); }
+  return @(indexPath.row);
+}
 
 #pragma mark - <QMUISearchControllerDelegate>
 
@@ -250,7 +281,7 @@ updateResultsForSearchString:(NSString *)searchString {
   } else {
     self.statusBarStyle = UIStatusBarStyleDefault;
   }
-  UIImage *image = [UIImage new];
+  UIImage *image = UIImageMake(@"white_background");
   [self.navigationController.navigationBar setBackgroundImage:image
                                                 forBarMetrics:UIBarMetricsDefault];
   [self setNeedsStatusBarAppearanceUpdate];
@@ -266,43 +297,6 @@ updateResultsForSearchString:(NSString *)searchString {
   [self setNeedsStatusBarAppearanceUpdate];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-  //随滚动改变navigation bar view的透明度
-  CGPoint point = scrollView.contentOffset;
-  //  QMUILogInfo(@"scroll", @"(x:%f,y:%f,nav:%f,status:%f)", point.x, point.y,
-  //  NavigationContentTop,
-  //              StatusBarHeight);
-  if (-100 - point.y > 0) {
-    self.navigationController.navigationBar.hidden = YES;
-  } else {
-    self.navigationController.navigationBar.hidden = NO;
-  }
-  [self.navigationController.navigationBar.qmui_backgroundView
-   setAlpha:(point.y + NavigationContentTop + 12) / NavigationBarHeight];
-  QMUILogInfo(@"scroll height",@"scroll.y=%f,height=%f,isEqual=%d",point.y,DEVICE_HEIGHT-StatusBarHeight,point.y == DEVICE_HEIGHT - NavigationContentTop);
-  if(ABS(point.y-DEVICE_HEIGHT+StatusBarHeight) <= 0.000001){
-    self.hotCollectionview.userInteractionEnabled = YES;
-    scrollView.userInteractionEnabled = false;
-  }
-  //  QMUILogInfo(@"table view content offset", @"navtop:%f,y:%f,alpha:%f",
-  //              point.y + NavigationContentTop, NavigationBarHeightt,
-  //              self.navigationController.navigationBar.qmui_backgroundContentView.alpha);
-  //默认的refresh controller是在navigation bar下，需要在未使用到的时候将其设置为透明
-  //  [UIView
-  //   transitionWithView:self.tableview.mj_header
-  //   duration:0.5
-  //   options:UIViewAnimationOptionShowHideTransitionViews
-  //   animations:^{
-  //    [self.tableview.mj_header setAlpha:(int)((-100 - point.y) / NavigationBarHeight)];
-  //  }
-  //   completion:^(BOOL finished){
-  //
-  //  }];
-  //  QMUILogInfo(@"table view header", @"scroll-y:%f,header.y:%f,nav bar height:%i", (-100 -
-  //  point.y),
-  //              self.tableView.mj_header.mj_y, NavigationBarHeight);
-}
-
 #pragma mark - 生成布局
 - (void)generateRootView {
   [self.navigationController.navigationBar.qmui_backgroundContentView setAlpha:0];
@@ -312,19 +306,26 @@ updateResultsForSearchString:(NSString *)searchString {
   self.mySearchController.searchBar.qmui_usedAsTableHeaderView = YES;
   self.mySearchController.active                               = NO;
   [self.mySearchController.searchBar setValue:@"取消" forKey:@"cancelButtonText"];
-  self.tableview                                = [QMUITableView new];
-  self.tableview.contentInsetAdjustmentBehavior = NO;
-  self.tableview.estimatedRowHeight             = 44;
-  self.tableview.dataSource                     = self;
-  self.tableview.delegate                       = self;
-  self.tableview.showsVerticalScrollIndicator   = NO;
-  self.tableview.separatorStyle                 = UITableViewCellSelectionStyleNone;
+  self.tableview = [[QMUITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+  self.tableview.estimatedRowHeight                     = 44;
+  self.tableview.dataSource                             = self;
+  self.tableview.delegate                               = self;
+  self.tableview.showsVerticalScrollIndicator           = NO;
+  self.tableview.qmui_cacheCellHeightByKeyAutomatically = YES;
+  self.tableview.scrollEnabled                          = YES;
+  self.tableview.separatorStyle                         = UITableViewCellSelectionStyleNone;
   [self.tableview registerClass:[QMUITableViewCell class] forCellReuseIdentifier:@"cell"];
   [self.tableview registerClass:[BannerCell class] forCellReuseIdentifier:@"bannercell"];
   [self.tableview registerClass:[CustomSectionCell class] forCellReuseIdentifier:@"sectioncell"];
   [self.tableview registerClass:[TicketCell class] forCellReuseIdentifier:@"ticketcell"];
   [self.tableview registerClass:[SelectionCell class] forCellReuseIdentifier:@"selectioncell"];
   [self.tableview registerClass:[HotCell class] forCellReuseIdentifier:@"hotcell"];
+  self.tableview.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(acceptMsgOfTopView:)
+                                               name:TOPNOTIFICATION
+                                             object:nil];
+  isEnableScroll = true;
   @weakify(self);
   ImageReFreshHeader *imageHeader = [ImageReFreshHeader headerWithRefreshingBlock:^{
     @strongify(self);
@@ -335,14 +336,88 @@ updateResultsForSearchString:(NSString *)searchString {
   
   addView(self.view, self.tableview);
   [self.tableview mas_makeConstraints:^(MASConstraintMaker *make) {
-    //    make.edges.equalTo(self.view);
-    @strongify(self);
-    //    make.edges.equalTo(self.view);
-    make.width.equalTo(self.view);
-    make.top.equalTo(self.view.mas_top).offset(-100);
-    make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
     //    make.width.equalTo(self.view);
+    //    make.top.equalTo(self.view.mas_top).offset(-100);
+    //    make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
+    //        make.width.equalTo(self.view);
+    make.top.left.right.equalTo(self.view);
+    make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
   }];
 }
 
+
+#pragma mark - 手势穿透
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:
+(UIGestureRecognizer *)otherGestureRecognizer {
+  return YES;
+}
+
+#pragma mark - 事件中心监听
+- (void)acceptMsgOfTopView:(NSNotification *)notification {
+  if (self.okFlag) {
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *result       = userInfo[@"flag"];
+    if (result.boolValue) {
+      QMUILogInfo(@"result", @"true");
+    } else {
+      self.hotCollectionview.scrollEnabled = YES;
+      self.tableview.scrollEnabled         = NO;
+      //      self.curContentOffset = self.tableview.contentOffset;
+      self.curContentOffset =
+      CGPointMake(self.tableview.contentOffset.x, self.tableview.contentOffset.y - OFFSETY);
+      [UIView animateWithDuration:1
+                            delay:0
+                          options:UIViewAnimationOptionBeginFromCurrentState
+                       animations:^{
+        [self.tableview
+         setContentOffset:CGPointMake(0, self.totHeight - NavigationContentTop)
+         animated:NO];
+        
+      }
+                       completion:^(BOOL finished){
+        
+      }];
+      QMUICellHeightKeyCache *cache = self.tableview.qmui_currentCellHeightKeyCache;
+      for (int i = 0; i < 5; ++i) {
+        QMUILogInfo(@"xxx", @"section %d:%f", i, [cache heightForKey:@(i)]);
+      }
+      QMUILogInfo(@"result", @"false,height=%f", self.totHeight);
+      self.okFlag = false;
+    }
+  } else {
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *result       = userInfo[@"flag"];
+    if (result.boolValue) {
+      self.okFlag = true;
+      [self.tableview setContentOffset:self.curContentOffset animated:YES];
+    }
+  }
+}
+
+#pragma mark - scroll delegate
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
+                     withVelocity:(CGPoint)velocity
+              targetContentOffset:(inout CGPoint *)targetContentOffset {
+//  QMUILogInfo(@"scroll will end", @"will end");
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//  QMUILogInfo(@"scroll will begin", @"will begin");
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+  //随滚动改变navigation bar view的透明度
+  CGPoint point = scrollView.contentOffset;
+//  QMUILogInfo(@"scroll did", @"did scroll");
+  if (point.y > self.totHeight - NavigationContentTop) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:TOPNOTIFICATION
+                                                        object:nil
+                                                      userInfo:@{
+                                                        @"flag" : @(false)
+                                                      }];
+  }
+  [self.navigationController.navigationBar.qmui_backgroundView
+   setAlpha:(point.y) / NavigationBarHeight];
+}
 @end

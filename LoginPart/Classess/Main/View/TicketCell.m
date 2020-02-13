@@ -10,17 +10,6 @@
 #import <JQCollectionViewAlignLayout/JQCollectionViewAlignLayout.h>
 #import "MarkUtils.h"
 #import "NSObject+BlockSEL.h"
-#define TICKETCELL @"ticketcell"
-#define TEXTCELL @"textcell"
-#define TOP1NUM 2
-#define TOP2NUM 3
-#define BOTTOMNUM 3
-#define TOPCELLHEIGHT (DEVICE_WIDTH - SPACE * 2.0) / 3
-#define TOPCELLWIDTH (DEVICE_WIDTH - SPACE * 2.0 - 2 * (TOP2NUM - 1)) / TOP2NUM
-#define TOPCELLWIDTH2 (DEVICE_WIDTH - SPACE * 2.0 - 2 * (TOP1NUM - 1)) * 0.7
-#define TOPCELLWIDTH3 (DEVICE_WIDTH - SPACE * 2.0 - 2 * (TOP1NUM - 1)) * 0.3
-#define BOTTOMCELLHEIGHT (DEVICE_WIDTH - SPACE * 2.0) / 6
-#define BOTTOMCELLWIDTH (DEVICE_WIDTH - SPACE * 2.0 - 2 * (BOTTOMNUM - 1)) / BOTTOMNUM
 #pragma mark - ticket content
 
 @interface TicketContentCell : UICollectionViewCell
@@ -41,9 +30,9 @@
 }
 
 - (void)generateRootView {
-  UIView *superview         = self.contentView;
-  superview.backgroundColor = UIColor.qmui_randomColor;
-  self.imageview            = [UIImageView new];
+  UIView *superview = self.contentView;
+  //  superview.backgroundColor = UIColor.qmui_randomColor;
+  self.imageview = [UIImageView new];
   //  self.imageview.image       = UIImageMake(@"profile_background");
   self.imageview.backgroundColor = UIColor.blackColor;
   self.imageview.contentMode     = QMUIImageResizingModeScaleAspectFill;
@@ -65,11 +54,6 @@
   
   [self layoutIfNeeded];
 }
-
-//- (UICollectionViewLayoutAttributes
-//*)preferredLayoutAttributesFittingAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes{
-//
-//}
 
 - (UIImageView *)hotImage {
   if (!_hotImage) {
@@ -122,7 +106,8 @@
   }];
   
   [self.bottomLB mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.left.right.bottom.equalTo(self.contentView);
+    make.left.right.equalTo(self.contentView);
+    make.bottom.equalTo(self.contentView).offset(-0.01 * SPACE);
     make.top.equalTo(self.topLB.mas_bottom);
   }];
 }
@@ -130,10 +115,25 @@
 @end
 
 #pragma mark - ticket cell
+#import "TitleCell.h"
+#define TITLECELL @"titlecell"
+#define TICKETCELL @"ticketcell"
+#define TEXTCELL @"textcell"
+#define TOP1NUM 2
+#define TOP2NUM 3
+#define BOTTOMNUM 3
+#define TITLECELLWIDTH (DEVICE_WIDTH - SPACE * 2.0)
+#define TITLECELLHEIGHT DEVICE_HEIGHT / 20
+#define TOPCELLHEIGHT (DEVICE_WIDTH - SPACE * 2.0) / 3
+#define TOPCELLWIDTH (DEVICE_WIDTH - SPACE * 2.0 - 2 * (TOP2NUM - 1)) / TOP2NUM
+#define TOPCELLWIDTH2 (DEVICE_WIDTH - SPACE * 2.0 - 2 * (TOP1NUM - 1)) * 0.7
+#define TOPCELLWIDTH3 (DEVICE_WIDTH - SPACE * 2.0 - 2 * (TOP1NUM - 1)) * 0.3
+#define BOTTOMCELLHEIGHT (DEVICE_WIDTH - SPACE * 2.0) / 6
+#define BOTTOMCELLWIDTH (DEVICE_WIDTH - SPACE * 2.0 - 2 * (BOTTOMNUM - 1)) / BOTTOMNUM
 @interface TicketCell () <UICollectionViewDelegate, UICollectionViewDataSource,
 JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
-@property (nonatomic, strong) UILabel *title;
-@property (nonatomic, strong) QMUIButton *moreBtn;
+//@property (nonatomic, strong) UILabel *title;
+//@property (nonatomic, strong) QMUIButton *moreBtn;
 @property (nonatomic, strong) UICollectionView *collectionview;
 @end
 
@@ -155,73 +155,85 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
 }
 
 - (void)generateRootView {
-  UIView *superview            = self.contentView;
-  superview.autoresizingMask   = UIViewAutoresizingFlexibleHeight;
-  UIView *background           = [UIView new];
-  UIView *shadowView           = [UIView new];
-  self.title                   = [UILabel new];
-  self.title.font              = UIFontBoldMake(17);
-  self.title.text              = @"xxx";
-  self.moreBtn                 = [QMUIButton new];
-  self.moreBtn.titleLabel.font = UIFontMake(14);
-  [self.moreBtn setTitle:@"更多" forState:UIControlStateNormal];
-  self.moreBtn.imagePosition = QMUIButtonImagePositionRight;
-  [self.moreBtn setImage:UIImageMake(@"right_arrow_small") forState:UIControlStateNormal];
-  [self.moreBtn setTitleColor:UIColor.qd_placeholderColor forState:UIControlStateNormal];
-  [self.moreBtn addTarget:self
-                   action:[self selectorBlock:^(id _Nonnull args) {
-    QMUILogInfo(@"more button", @"more button clicked !!!");
-  }]
-         forControlEvents:UIControlEventTouchUpInside];
+  UIView *superview          = self.contentView;
+  superview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+  //  UIView *background           = [UIView new];
+  //  UIView *shadowView           = [UIView new];
+  //  self.title                   = [UILabel new];
+  //  self.title.font              = UIFontBoldMake(17);
+  //  self.title.text              = @"xxx";
+  //  self.moreBtn                 = [QMUIButton new];
+  //  self.moreBtn.titleLabel.font = UIFontMake(14);
+  //  [self.moreBtn setTitle:@"更多" forState:UIControlStateNormal];
+  //  self.moreBtn.imagePosition = QMUIButtonImagePositionRight;
+  //  [self.moreBtn setImage:UIImageMake(@"right_arrow_small") forState:UIControlStateNormal];
+  //  [self.moreBtn setTitleColor:UIColor.qd_placeholderColor forState:UIControlStateNormal];
+  //  [self.moreBtn addTarget:self
+  //                   action:[self selectorBlock:^(id _Nonnull args) {
+  //    QMUILogInfo(@"more button", @"more button clicked !!!");
+  //  }]
+  //         forControlEvents:UIControlEventTouchUpInside];
   superview.mas_key = @"superview";
-  addView(superview, background);
-  self.title.mas_key = @"title";
-  addView(superview, self.title);
-  self.moreBtn.mas_key = @"morebtn";
-  addView(superview, self.moreBtn);
+  //  addView(superview, background);
+  //  self.title.mas_key = @"title";
+  //  addView(superview, self.title);
+  //  self.moreBtn.mas_key = @"morebtn";
+  //  addView(superview, self.moreBtn);
   self.collectionview.mas_key = @"collection view";
   addView(superview, self.collectionview);
   
   MASAttachKeys(self.collectionview, superview);
   
-  [background mas_updateConstraints:^(MASConstraintMaker *make) {
-    make.top.equalTo(self.title).offset(-SPACE);
-    make.bottom.right.left.equalTo(self.collectionview);
-  }];
+  //  [background mas_updateConstraints:^(MASConstraintMaker *make) {
+  //    make.top.equalTo(self.title).offset(-SPACE);
+  //    make.bottom.right.left.equalTo(self.collectionview);
+  //  }];
   
-  [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.top.equalTo(superview).offset(SPACE).with.priorityHigh;
-    make.left.equalTo(superview).offset(1.5 * SPACE);
-  }];
-  
-  [self.moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.right.equalTo(superview).offset(-1.5 * SPACE);
-    make.bottom.equalTo(self.title);
-  }];
+  //  [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
+  //    make.top.equalTo(superview).offset(SPACE).with.priorityHigh;
+  //    make.left.equalTo(superview).offset(1.5 * SPACE);
+  //  }];
+  //
+  //  [self.moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+  //    make.right.equalTo(superview).offset(-1.5 * SPACE);
+  //    make.bottom.equalTo(self.title);
+  //  }];
   
   [self.collectionview mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.top.equalTo(self.title.mas_bottom).with.offset(SPACE).with.priorityHigh;
+    make.top.equalTo(superview).with.offset(SPACE).with.priorityHigh;
     make.centerX.equalTo(superview).offset(0);
     make.width.equalTo(@(DEVICE_WIDTH - 2 * SPACE));
-    make.height.equalTo(@(TOPCELLHEIGHT * 2 + BOTTOMCELLHEIGHT + 4)).with.priorityHigh;
+    make.height.equalTo(@(TOPCELLHEIGHT * 2 + BOTTOMCELLHEIGHT + 4 + TITLECELLHEIGHT))
+    .with.priorityHigh;
     make.bottom.equalTo(superview.mas_bottom).with.priorityHigh;
   }];
   
-  background.backgroundColor     = UIColor.grayColor;
-  background.layer.cornerRadius  = (TOPCELLHEIGHT * 2 + BOTTOMCELLHEIGHT + 4) / 50;
-  background.layer.masksToBounds = true;
+  //  background.backgroundColor     = UIColor.grayColor;
+  //  background.layer.cornerRadius  = (TOPCELLHEIGHT * 2 + BOTTOMCELLHEIGHT + 4) / 50;
+  //  background.layer.masksToBounds = true;
   
-  shadowView.layer.shadowColor   = UIColor.qd_mainTextColor.CGColor;
-  shadowView.layer.shadowRadius  = 3;
-  shadowView.layer.shadowOpacity = 0.8;
-  shadowView.layer.shadowOffset  = CGSizeMake(3, 3);
-  shadowView.backgroundColor = UIColor.whiteColor;
-  shadowView.layer.masksToBounds = false;
+  //  shadowView.layer.shadowColor   = UIColor.qd_mainTextColor.CGColor;
+  //  shadowView.layer.shadowRadius  = 3;
+  //  shadowView.layer.shadowOpacity = 0.8;
+  //  shadowView.layer.shadowOffset  = CGSizeMake(3, 3);
+  //  shadowView.backgroundColor = UIColor.whiteColor;
+  //  shadowView.layer.masksToBounds = false;
+  //
+  //  [superview insertSubview:shadowView belowSubview:background];
+  //
+  //  UIEdgeInsets edge = UIEdgeInsetsMake(2, 2, 2, 2);
+  //  [shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
+  //  make.edges.equalTo(background).with.insets(edge); }];
+  CGFloat cellH = TOPCELLHEIGHT * 2 + BOTTOMCELLHEIGHT + 4 + TITLECELLHEIGHT;
   
-  [superview insertSubview:shadowView belowSubview:background];
+  self.collectionview.layer.cornerRadius = cellH / 50;
   
-  UIEdgeInsets edge = UIEdgeInsetsMake(2, 2, 2, 2);
-  [shadowView mas_makeConstraints:^(MASConstraintMaker *make) { make.edges.equalTo(background).with.insets(edge); }];
+  self.collectionview.layer.shadowOffset  = CGSizeMake(0, 1);
+  self.collectionview.layer.shadowColor   = [[UIColor blackColor] CGColor];
+  self.collectionview.layer.shadowRadius  = 5;
+  self.collectionview.layer.shadowOpacity = 0.25;
+  self.collectionview.clipsToBounds       = false;
+  self.collectionview.layer.masksToBounds = false;
 }
 
 - (UICollectionView *)collectionview {
@@ -236,9 +248,10 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
     _collectionview =
     [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionview.scrollEnabled   = false;
-    _collectionview.backgroundColor = UIColor.clearColor;
+    _collectionview.backgroundColor = UIColor.qd_backgroundColor;
     [_collectionview registerClass:[TicketContentCell class] forCellWithReuseIdentifier:TICKETCELL];
     [_collectionview registerClass:[TextTopBottom class] forCellWithReuseIdentifier:TEXTCELL];
+    [_collectionview registerClass:[TitleCell class] forCellWithReuseIdentifier:TITLECELL];
     _collectionview.dataSource = self;
     _collectionview.delegate   = self;
   }
@@ -247,17 +260,19 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
 
 #pragma mark - collection delegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-  return 3;
+  return 4;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
   switch (section) {
     case 0:
-      return 2;
+      return 1;
     case 1:
-      return 3;
+      return 2;
     case 2:
+      return 3;
+    case 3:
       return 3;
   }
   return 0;
@@ -266,9 +281,9 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 0) {
-    TicketContentCell *tCell =
-    [collectionView dequeueReusableCellWithReuseIdentifier:TICKETCELL forIndexPath:indexPath];
-    return tCell;
+    TitleCell *ttCell =
+    [collectionView dequeueReusableCellWithReuseIdentifier:TITLECELL forIndexPath:indexPath];
+    return ttCell;
   }
   if (indexPath.section == 1) {
     TicketContentCell *tCell =
@@ -276,6 +291,11 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
     return tCell;
   }
   if (indexPath.section == 2) {
+    TicketContentCell *tCell =
+    [collectionView dequeueReusableCellWithReuseIdentifier:TICKETCELL forIndexPath:indexPath];
+    return tCell;
+  }
+  if (indexPath.section == 3) {
     TextTopBottom *ttbCell =
     [collectionView dequeueReusableCellWithReuseIdentifier:TEXTCELL forIndexPath:indexPath];
     return ttbCell;
@@ -286,11 +306,12 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-  if (indexPath.section == 0) {
+  if (indexPath.section == 0) { return CGSizeMake(TITLECELLWIDTH, TITLECELLHEIGHT); }
+  if (indexPath.section == 1) {
     if (indexPath.row == 0) return CGSizeMake(TOPCELLWIDTH2, TOPCELLHEIGHT);
     return CGSizeMake(TOPCELLWIDTH3, TOPCELLHEIGHT);
   }
-  if (indexPath.section == 1) { return CGSizeMake(TOPCELLWIDTH, TOPCELLHEIGHT); }
+  if (indexPath.section == 2) { return CGSizeMake(TOPCELLWIDTH, TOPCELLHEIGHT); }
   return CGSizeMake(BOTTOMCELLWIDTH, BOTTOMCELLHEIGHT);
 }
 

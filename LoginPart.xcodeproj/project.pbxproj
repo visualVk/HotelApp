@@ -76,6 +76,9 @@
 		A7F9E2C623EAB7DF00A50C60 /* LogoImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F9E2C523EAB7DF00A50C60 /* LogoImageCell.m */; };
 		A7F9E2C923EAF2D900A50C60 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F9E2C823EAF2D900A50C60 /* TextFieldCell.m */; };
 		A7F9E2CC23EAF59F00A50C60 /* TextFieldAndButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7F9E2CB23EAF59F00A50C60 /* TextFieldAndButtonCell.m */; };
+		A7FA942B23F53E8E00D74D44 /* BannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FA942A23F53E8E00D74D44 /* BannerView.m */; };
+		A7FA942E23F5530600D74D44 /* MainTabController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FA942D23F5530600D74D44 /* MainTabController.m */; };
+		A7FA943123F5AC4F00D74D44 /* FooterEmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FA943023F5AC4F00D74D44 /* FooterEmptyView.m */; };
 		A7FAEA2323F3ACB0001FA3AD /* ImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2223F3ACB0001FA3AD /* ImageUtils.m */; };
 		A7FAEA2723F3BE7D001FA3AD /* TitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2623F3BE7D001FA3AD /* TitleCell.m */; };
 		A7FAEA2A23F3D301001FA3AD /* SelectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7FAEA2923F3D301001FA3AD /* SelectionCell.m */; };
@@ -258,6 +261,12 @@
 		A7F9E2C823EAF2D900A50C60 /* TextFieldCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextFieldCell.m; sourceTree = "<group>"; };
 		A7F9E2CA23EAF59F00A50C60 /* TextFieldAndButtonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TextFieldAndButtonCell.h; sourceTree = "<group>"; };
 		A7F9E2CB23EAF59F00A50C60 /* TextFieldAndButtonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TextFieldAndButtonCell.m; sourceTree = "<group>"; };
+		A7FA942923F53E8E00D74D44 /* BannerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerView.h; sourceTree = "<group>"; };
+		A7FA942A23F53E8E00D74D44 /* BannerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BannerView.m; sourceTree = "<group>"; };
+		A7FA942C23F5530600D74D44 /* MainTabController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabController.h; sourceTree = "<group>"; };
+		A7FA942D23F5530600D74D44 /* MainTabController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabController.m; sourceTree = "<group>"; };
+		A7FA942F23F5AC4F00D74D44 /* FooterEmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FooterEmptyView.h; sourceTree = "<group>"; };
+		A7FA943023F5AC4F00D74D44 /* FooterEmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FooterEmptyView.m; sourceTree = "<group>"; };
 		A7FAEA2123F3ACB0001FA3AD /* ImageUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageUtils.h; sourceTree = "<group>"; };
 		A7FAEA2223F3ACB0001FA3AD /* ImageUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageUtils.m; sourceTree = "<group>"; };
 		A7FAEA2523F3BE7D001FA3AD /* TitleCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TitleCell.h; sourceTree = "<group>"; };
@@ -357,6 +366,7 @@
 		A72516BA23E83DFA003B6E1F /* LoginPart */ = {
 			isa = PBXGroup;
 			children = (
+				A7FAEACB23F4227D001FA3AD /* Expand */,
 				A725170523E8469B003B6E1F /* Utils */,
 				A72516FD23E841C1003B6E1F /* Lib */,
 				A72516F923E841C0003B6E1F /* Other */,
@@ -744,6 +754,8 @@
 		A729CE7123ED49DE00F0FBB9 /* Expand */ = {
 			isa = PBXGroup;
 			children = (
+				A7FA942C23F5530600D74D44 /* MainTabController.h */,
+				A7FA942D23F5530600D74D44 /* MainTabController.m */,
 			);
 			path = Expand;
 			sourceTree = "<group>";
@@ -780,6 +792,10 @@
 				A7FAEA2923F3D301001FA3AD /* SelectionCell.m */,
 				A7FAEA2B23F3FA2B001FA3AD /* HotCell.h */,
 				A7FAEA2C23F3FA2B001FA3AD /* HotCell.m */,
+				A7FA942923F53E8E00D74D44 /* BannerView.h */,
+				A7FA942A23F53E8E00D74D44 /* BannerView.m */,
+				A7FA942F23F5AC4F00D74D44 /* FooterEmptyView.h */,
+				A7FA943023F5AC4F00D74D44 /* FooterEmptyView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -918,6 +934,13 @@
 				A729CE7123ED49DE00F0FBB9 /* Expand */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		A7FAEACB23F4227D001FA3AD /* Expand */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Expand;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1164,6 +1187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7B5FF6923E966C600A65558 /* NSObject+BlockSEL.m in Sources */,
+				A7FA943123F5AC4F00D74D44 /* FooterEmptyView.m in Sources */,
 				A725171723E8469B003B6E1F /* QDThemeManager.m in Sources */,
 				A729CE8123ED526600F0FBB9 /* AllNavigationController.m in Sources */,
 				A725176223E846CE003B6E1F /* UIImage+Extend.m in Sources */,
@@ -1193,6 +1217,7 @@
 				A700161823F165D0009BA6F8 /* CustomSectionCell.m in Sources */,
 				A7F9E2CC23EAF59F00A50C60 /* TextFieldAndButtonCell.m in Sources */,
 				A729CE8723ED739700F0FBB9 /* SearchView.m in Sources */,
+				A7FA942E23F5530600D74D44 /* MainTabController.m in Sources */,
 				A725171823E8469B003B6E1F /* QMUIConfigurationTemplate.m in Sources */,
 				A7797A8323EFD88E00891DC6 /* BannerCell.m in Sources */,
 				A729CE6A23ED1F6D00F0FBB9 /* LabelAndTextFieldView.m in Sources */,
@@ -1203,6 +1228,7 @@
 				A725172523E846B7003B6E1F /* Utility.m in Sources */,
 				A725176523E846CE003B6E1F /* AVCaptureViewController.m in Sources */,
 				A725179023E849F6003B6E1F /* ASFRManager.m in Sources */,
+				A7FA942B23F53E8E00D74D44 /* BannerView.m in Sources */,
 				A7FAEA2323F3ACB0001FA3AD /* ImageUtils.m in Sources */,
 				A725176B23E846CE003B6E1F /* LHSIDCardScaningView.m in Sources */,
 				A72517A923E856E5003B6E1F /* LogoView.m in Sources */,

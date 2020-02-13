@@ -11,5 +11,5 @@
 @interface HotCell : QMUITableViewCell
 @property (nonatomic, strong) NSArray *datas;
 @property (nonatomic, strong) UICollectionView *collectionview;
-@property(nonatomic, weak) UIScrollView *scrollview;
+@property (nonatomic, weak) QMUITableView *tableview;
 @end

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LoginController.h"
 #import "MainController.h"
+#import "MainTabController.h"
 #import "QMUIConfigurationTemplate.h"
 #import "Users.h"
 @interface AppDelegate ()
@@ -85,8 +86,9 @@
       [@"" isEqualToString:users.password]) {
     con = [LoginController new];
   } else {
-    con = [MainController new];
-    con = [[QMUINavigationController alloc] initWithRootViewController:con];
+    //    con = [MainController new];
+    //    con = [[QMUINavigationController alloc] initWithRootViewController:con];
+    con = [MainTabController new];
   }
   //    LoginController *con           = [LoginController new];
   self.window.backgroundColor                           = UIColor.qd_backgroundColor;

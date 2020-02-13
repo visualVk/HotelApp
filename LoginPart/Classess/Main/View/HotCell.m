@@ -45,7 +45,7 @@
   self.placeholder.backgroundColor    = UIColor.qd_tintColor;
   self.placeholder.layer.cornerRadius = 2;
   
-  superview.mas_key = @"superview";
+  superview.mas_key      = @"superview";
   self.imageview.mas_key = @"imageview";
   addView(superview, self.imageview);
   self.bottomView.mas_key = @"bottomView";
@@ -84,17 +84,27 @@
 @end
 
 #pragma mark - hot cell
+#import <MJRefresh/MJRefresh.h>
 #import <WSLWaterFlowLayout/WSLWaterFlowLayout.h>
+#import "FooterEmptyView.h"
+#import "NSObject+BlockSEL.h"
 #import "TitleCell.h"
 #define HOTCONTENTCELL @"hotecontentcell"
 #define TOPTITLECELL @"toptitlecell"
+#define HEADERVIEW @"headerview"
+#define FOOTERVIEW @"footerview"
 #define FIRSTCELLHEIGHT DEVICE_HEIGHT / 7
 #define SECONDCELLHEIGHT DEVICE_HEIGHT / 6
 #define THIRDCELLHEIGHT DEVICE_HEIGHT / 5
 #define COL 2
 #define SEC 2
+#define BOTTOMNOTIFICATION @"bottomnotification"
 @interface HotCell () <UICollectionViewDelegate, UICollectionViewDataSource,
-WSLWaterFlowLayoutDelegate, GenerateEntityDelegate>
+WSLWaterFlowLayoutDelegate, GenerateEntityDelegate> {
+  double speed;
+  double y;
+}
+@property (nonatomic, assign) NSInteger tot;
 @end
 
 @implementation HotCell
@@ -102,11 +112,11 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate>
 - (void)didInitializeWithStyle:(UITableViewCellStyle)style {
   [super didInitializeWithStyle:style];
   // init 时做的事情请写在这里
-  self.datas = @[
-    @"icon_moreOperation_shareFriend", @"icon_grid_titleView", @"profile_background",
-    @"profile_background", @"profile_background", @"profile_background", @"profile_background",
-    @"profile_background", @"profile_background", @"profile_background"
-  ];
+  self.tot = 10;
+  [[NSNotificationCenter defaultCenter] addObserver:self
+                                           selector:@selector(acceptMsgOfBottomView:)
+                                               name:BOTTOMNOTIFICATION
+                                             object:nil];
   [self generateRootView];
 }
 
@@ -120,19 +130,23 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate>
 }
 
 - (void)generateRootView {
-  self.userInteractionEnabled = false;
-  UIView *superview = self.contentView;
+  self.userInteractionEnabled = true;
+  self.selectionStyle         = UITableViewCellSelectionStyleNone;
+  UIView *superview           = self.contentView;
   
   addView(self.contentView, self.collectionview);
-  
+  UIWindow *window = UIApplication.sharedApplication.delegate.window;
+  QMUILogInfo(@"window", @"top:%f,bottom:%f", window.safeAreaInsets.top,
+              window.safeAreaInsets.bottom);
   [self.collectionview mas_makeConstraints:^(MASConstraintMaker *make) {
-    make.top.left.equalTo(superview);
-    make.right.equalTo(superview);
-    make.height.equalTo(@(DEVICE_HEIGHT));
+    make.top.equalTo(superview);
+    make.centerX.equalTo(superview);
+    make.width.equalTo(@(DEVICE_WIDTH - 2 * SPACE));
+    make.height.equalTo(@(DEVICE_HEIGHT - 88 - 83));
     make.bottom.equalTo(superview);
   }];
 }
-
+#pragma mark - 懒加载 collection view
 - (UICollectionView *)collectionview {
   if (!_collectionview) {
     WSLWaterFlowLayout *layout = [[WSLWaterFlowLayout alloc] init];
@@ -140,35 +154,47 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate>
     layout.flowLayoutStyle     = WSLWaterFlowVerticalEqualWidth;
     _collectionview =
     [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
-    _collectionview.scrollEnabled   = YES;
-    _collectionview.backgroundColor = UIColor.qd_backgroundColor;
-    _collectionview.delegate        = self;
-    _collectionview.dataSource      = self;
+    _collectionview.scrollEnabled                = false;
+    _collectionview.showsVerticalScrollIndicator = false;
+    _collectionview.backgroundColor              = UIColor.qd_backgroundColor;
+    _collectionview.delegate                     = self;
+    _collectionview.dataSource                   = self;
     [_collectionview registerClass:[TitleCell class] forCellWithReuseIdentifier:TOPTITLECELL];
+    [_collectionview registerClass:[TitleCell class]
+        forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+               withReuseIdentifier:HEADERVIEW];
     [_collectionview registerClass:[HotContentCell class]
         forCellWithReuseIdentifier:HOTCONTENTCELL];
+    [_collectionview registerClass:[FooterEmptyView class]
+        forSupplementaryViewOfKind:UICollectionElementKindSectionFooter
+               withReuseIdentifier:FOOTERVIEW];
+    
+    MJRefreshBackGifFooter *footer = [MJRefreshBackGifFooter
+                                      footerWithRefreshingTarget:self
+                                      refreshingAction:[self selectorBlock:^(id _Nonnull args) {
+      dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)),
+                     dispatch_get_main_queue(),
+                     ^{ [_collectionview.mj_footer endRefreshing]; });
+    }]];
+    footer.stateLabel.text = @"xxxx";
+    // Set footer
+    _collectionview.mj_footer = footer;
   }
   return _collectionview;
 }
 
 #pragma mark - collection delegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-  return 2;
+  return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
   switch (section) {
     case 0:
-      return 1;
-    case 1:
-      return 10;
-      break;
-      
-    default:
-      break;
+      return self.tot;
   }
-  return 1;
+  return 0;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
@@ -176,11 +202,6 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate>
   NSInteger section = indexPath.section;
   NSInteger row     = indexPath.row;
   if (section == 0) {
-    TitleCell *tCell =
-    [collectionView dequeueReusableCellWithReuseIdentifier:TOPTITLECELL forIndexPath:indexPath];
-    return tCell;
-  }
-  if (section == 1) {
     HotContentCell *hcCell = [collectionView dequeueReusableCellWithReuseIdentifier:HOTCONTENTCELL
                                                                        forIndexPath:indexPath];
     hcCell.imageview.image = UIImageMake(@"launch_background");
@@ -190,6 +211,27 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate>
   return nil;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath {
+  if (indexPath.section == 0) {
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+      TitleCell *titleHeader = [collectionView
+                                dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                withReuseIdentifier:HEADERVIEW
+                                forIndexPath:indexPath];
+      return titleHeader;
+    } else {
+      FooterEmptyView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:kind
+                                                                   withReuseIdentifier:FOOTERVIEW
+                                                                          forIndexPath:indexPath];
+      return footer;
+    }
+  }
+  UICollectionReusableView *view = [[UICollectionReusableView alloc] initWithFrame:CGRectZero];
+  return view;
+}
+
 - (CGSize)waterFlowLayout:(WSLWaterFlowLayout *)waterFlowLayout
 sizeForFooterViewInSection:(NSInteger)section {
   return CGSizeMake(0, 0);
@@ -197,16 +239,15 @@ sizeForFooterViewInSection:(NSInteger)section {
 
 - (CGSize)waterFlowLayout:(WSLWaterFlowLayout *)waterFlowLayout
 sizeForHeaderViewInSection:(NSInteger)section {
-  return CGSizeMake(0, 0);
+  if (section == 0) { return CGSizeMake(DEVICE_WIDTH - 2 * SPACE, DEVICE_HEIGHT / 25); }
+  return CGSizeZero;
 }
 
 - (CGSize)waterFlowLayout:(WSLWaterFlowLayout *)waterFlowLayout
    sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-  NSInteger row = indexPath.row;
+  NSInteger row     = indexPath.row;
   NSInteger section = indexPath.section;
-  if(section == 0){
-    return CGSizeMake(DEVICE_WIDTH, DEVICE_HEIGHT / 20);
-  }
+  //  if (section == 0) { return CGSizeMake(DEVICE_WIDTH, DEVICE_HEIGHT / 20); }
   switch (row % 3) {
     case 0:
       return CGSizeMake(20, THIRDCELLHEIGHT);
@@ -234,11 +275,52 @@ sizeForHeaderViewInSection:(NSInteger)section {
   return SPACE;
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:
+(UIGestureRecognizer *)otherGestureRecognizer {
+  return YES;
+}
+
+#pragma mark - scroll delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   CGPoint point = scrollView.contentOffset;
-  if(point.y <= 0.1){
-    self.userInteractionEnabled = false;
-    self.scrollview.userInteractionEnabled = true;
+  if (point.y <= -20) {
+    [[NSNotificationCenter defaultCenter] postNotificationName:BOTTOMNOTIFICATION
+                                                        object:nil
+                                                      userInfo:@{
+                                                        @"flag" : @(true)
+                                                      }];
+  }
+}
+
+- (void)collectionView:(UICollectionView *)collectionView
+didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+  @weakify(self);
+  [self.collectionview performBatchUpdates:^{
+    @strongify(self);
+    QMUILogInfo(@"hot collection view", @"click:{%li,%li}", indexPath.section, indexPath.row);
+    self.tot++;
+    [self.collectionview reloadItemsAtIndexPaths:@[ indexPath ]];
+  }
+                                completion:^(BOOL finished) {
+    [self.collectionview selectItemAtIndexPath:indexPath
+                                      animated:YES
+                                scrollPosition:UICollectionViewScrollPositionBottom];
+  }];
+}
+
+- (void)acceptMsgOfBottomView:(NSNotification *)notification {
+  NSDictionary *userInfo = notification.userInfo;
+  NSNumber *result       = userInfo[@"flag"];
+  if (result.boolValue) {
+    self.tableview.scrollEnabled      = YES;
+    self.collectionview.scrollEnabled = NO;
+    [self.collectionview setContentOffset:CGPointMake(0, 0) animated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"topnotification"
+                                                        object:nil
+                                                      userInfo:@{
+                                                        @"flag" : @(1)
+                                                      }];
   }
 }
 @end
