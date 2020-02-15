@@ -8,6 +8,7 @@
 #import "MainController.h"
 #import "BannerCell.h"
 #import "BannerView.h"
+#import "CityController.h"
 #import "CustomSectionCell.h"
 #import "HotCell.h"
 #import "ImageReFreshHeader.h"
@@ -21,13 +22,15 @@
 #define ForthHeight UIScreen.mainScreen.bounds.size.height / 4
 #define TenthHeight UIScreen.mainScreen.bounds.size.height / 10
 #define FifteenthHeight UIScreen.mainScreen.bounds.size.height / 10
+#define SCROLLBOTTOMTOP (DEVICE_WIDTH - 2 * SPACE) / 8
 #define OFFSETY DEVICE_HEIGHT / 10 + 44
 #define SAFETOPINSET SafeAreaInsetsConstantForDeviceWithNotch.bottom
 #define SAFEBOTTOMINSET SafeAreaInsetsConstantForDeviceWithNotch.top
 #define SAFEHEIGHT DEVICE_HEIGHT - SAFETOPINSET - SAFEBOTTOMINSET
 #define TOPNOTIFICATION @"topnotification"
 
-@interface MainController () <QMUISearchControllerDelegate, UIGestureRecognizerDelegate> {
+@interface MainController () <QMUISearchControllerDelegate, UIGestureRecognizerDelegate,
+QMUINavigationControllerDelegate> {
   CGFloat offsetHeight;
   Boolean isEnableScroll;
 }
@@ -43,7 +46,6 @@
 @property (nonatomic, assign) CGFloat totHeight;
 @property (nonatomic, assign) Boolean okFlag;
 @property (nonatomic, assign) CGPoint curContentOffset;
-//@property (nonatomic, strong) UICollectionView *collectionview;
 
 @end
 
@@ -74,30 +76,26 @@
 - (void)viewDidLoad {
   [super viewDidLoad];
   // 对 self.view 的操作写在这里
-  
   [self generateRootView];
-  //  addView(self.view, self.mySearchController.searchBar);
-  //  self.mySearchController.searchBar.frame =
-  //  CGRectSetY(self.mySearchController.searchBar.frame,
-  //             self.navigationController.navigationBar.frame.size.height+statusBarRect.size.height);
-  //  self.mySearchController.searchBar.frame = CGRectSetY(self.mySearchController.searchBar.frame,
-  //  NavigationContentTop);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
-  [self.navigationController.navigationBar.qmui_backgroundView setAlpha:0];
+  //  [self.navigationController.navigationBar.qmui_backgroundView setAlpha:0];
+  [self.navigationController.navigationBar.qmui_backgroundView
+   setAlpha:self.tableview.contentOffset.y / NavigationContentTop];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
   [super viewDidAppear:animated];
+  self.definesPresentationContext = YES;
   @weakify(self);
   [RACObserve(self.tableview, qmui_currentCellHeightKeyCache) subscribeNext:^(id x) {
     @strongify(self);
     QMUICellHeightCache *cache = x;
     CGFloat curHeight;
     self.totHeight = ForthHeight + FifteenthHeight / 2;
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < 4; ++i) {
       curHeight = [cache heightForKey:@(i)];
       self.totHeight += curHeight;
     }
@@ -118,21 +116,30 @@
 
 - (void)setupNavigationItems {
   [super setupNavigationItems];
-  self.title                    = @"首页";
-  self.navigationItem.titleView = self.mySearchController.searchBar;
-  //  self.navigationController.navigationBar.hidden = YES;
-  self.navigationController.navigationBar.opaque               = YES;
+  //  self.title = @"首页";
+  //  self.navigationItem.titleView = self.mySearchController.searchBar;
+  //  self.navigationController.navigationBar.opaque               = YES;
   self.mySearchController.hidesNavigationBarDuringPresentation = NO;
-  //  QMUICMI.searchBarTextFieldBackgroundImage = [UIImage new];
-  //  UIImage.qd_searchBarTextFieldBackgroundImage
-  self.bottomBtn = [QMUIButton new];
+  self.bottomBtn                                               = [QMUIButton new];
   [self.bottomBtn setTitle:@"温州" forState:UIControlStateNormal];
   self.bottomBtn.titleLabel.font = UIFontBoldMake(16);
   [self.bottomBtn setTitleColor:UIColor.qd_backgroundColor forState:normal];
   [self.bottomBtn setImage:UIImageMake(@"bottom_arrow") forState:UIControlStateNormal];
-  self.bottomBtn.imagePosition = QMUIButtonImagePositionRight;
-  self.navigationItem.leftBarButtonItem =
-  [[UIBarButtonItem alloc] initWithCustomView:self.bottomBtn];
+  self.bottomBtn.imagePosition   = QMUIButtonImagePositionRight;
+  __weak __typeof(self) weakSelf = self;
+  [self.bottomBtn addTarget:self
+                     action:[self selectorBlock:^(id _Nonnull args) {
+    //      防止第二个带有searchcontroller页面的代理失效
+    weakSelf.definesPresentationContext = NO;
+    [weakSelf.navigationController.navigationBar.qmui_backgroundView setAlpha:1];
+    CityController *cCon = [[CityController alloc] init];
+    [weakSelf.navigationController pushViewController:cCon animated:YES];
+  }]
+           forControlEvents:UIControlEventTouchUpInside];
+  //  self.navigationItem.leftBarButtonItem =
+  //  [[UIBarButtonItem alloc] initWithCustomView:self.bottomBtn];
+  self.navigationItem.leftBarButtonItems =
+  @[ NavLeftItemMake(self.bottomBtn), NavLeftItemMake(self.mySearchController.searchBar) ];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -142,64 +149,46 @@
 #pragma mark - <QMUITableViewDataSource,QMUITableViewDelegate>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  if (tableView == self.tableview) {
-    //            return self.keywords.count;
-    return 6;
-  }
+  if (tableView == self.tableview) { return 5; }
   return self.searchResultsKeywords.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  static NSString *identifier = @"cell";
-  QMUITableViewCell *cell     = [tableView dequeueReusableCellWithIdentifier:identifier];
-  if (!cell) {
-    cell = [[QMUITableViewCell alloc] initForTableView:tableView withReuseIdentifier:identifier];
-  }
-  
+  //  QMUITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+  //  if(!cell){
+  //  }
   if (tableView == self.tableview) {
-    //    cell.textLabel.text = self.keywords[indexPath.row];
     if (indexPath.row == 0) {
-      //      BannerCell *bCell = [tableView dequeueReusableCellWithIdentifier:@"bannercell"];
-      //      bCell.datas       = self.imageList;
-      //      //      [bCell updateCellAppearanceWithIndexPath:indexPath];
-      //      [bCell loadData];
-      return [QMUITableViewCell new];
-    } else if (indexPath.row == 1) {
       CustomSectionCell *cCell =
       [tableView dequeueReusableCellWithIdentifier:@"sectioncell" forIndexPath:indexPath];
-      //      cCell.frame = self.view.bounds;
-      //      [cCell layoutIfNeeded];
-      //      [cCell updateCellAppearanceWithIndexPath:indexPath];
-      QMUILogInfo(@"custom cell", @"height:%f", CGRectGetHeight(cCell.contentView.frame));
       return cCell;
-    } else if (indexPath.row == 2) {
+    } else if (indexPath.row == 1) {
       TicketCell *tCell =
       [tableView dequeueReusableCellWithIdentifier:@"ticketcell" forIndexPath:indexPath];
       [tCell reloadData];
       QMUILogInfo(@"ticket cell", frameAndBounds(tCell));
       return tCell;
-    } else if (indexPath.row == 3) {
+    } else if (indexPath.row == 2) {
       SelectionCell *scell =
       [tableView dequeueReusableCellWithIdentifier:@"selectioncell" forIndexPath:indexPath];
       return scell;
+    } else if (indexPath.row == 3) {
+      QMUITableViewCell *cell =
+      [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+      cell.selectionStyle  = UITableViewCellSelectionStyleNone;
+      cell.backgroundColor = UIColor.clearColor;
+      return cell;
     } else if (indexPath.row == 4) {
-      return [QMUITableViewCell new];
-    } else if (indexPath.row == 5) {
       HotCell *hCell =
       [tableView dequeueReusableCellWithIdentifier:@"hotcell" forIndexPath:indexPath];
       hCell.tableview        = self.tableview;
       self.hotCollectionview = hCell.collectionview;
       return hCell;
-    } else {
-      NSMutableString *str = [[NSMutableString alloc] init];
-      for (int i = 0; i < 100; i++) { [str appendString:@"string"]; }
-      //      cell.textLabel.text = [NSString stringWithFormat:@"%li", indexPath.row];
-      cell.textLabel.text          = str;
-      cell.textLabel.numberOfLines = 0;
-      cell.selectionStyle          = UITableViewCellSelectionStyleNone;
     }
   } else {
+    QMUITableViewCell *cell =
+    [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     NSString *keyword                           = self.searchResultsKeywords[indexPath.row];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]
                                                    initWithString:keyword
@@ -210,10 +199,11 @@
                                 range:range];
     }
     cell.textLabel.attributedText = attributedString;
+    
+    [cell updateCellAppearanceWithIndexPath:indexPath];
+    return cell;
   }
-  
-  [cell updateCellAppearanceWithIndexPath:indexPath];
-  return cell;
+  return nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -228,7 +218,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return ForthHeight + FifteenthHeight / 2 + 10;
+  return ForthHeight + FifteenthHeight / 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -236,13 +226,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-  //  if (indexPath.row == 0 && indexPath.section == 0) {
-  //    return ForthHeight + FifteenthHeight / 2 + 10;
-  //  }
-  //      else if (indexPath.row == 2) {
-  //        return DEVICE_WIDTH * 0.5;
-  //      }
-  //  return UITableViewAutomaticDimension;
   return -1;
 }
 
@@ -281,9 +264,11 @@ updateResultsForSearchString:(NSString *)searchString {
   } else {
     self.statusBarStyle = UIStatusBarStyleDefault;
   }
-  UIImage *image = UIImageMake(@"white_background");
+  self.navigationItem.leftBarButtonItems = @[ NavLeftItemMake(self.mySearchController.searchBar) ];
+  UIImage *image                         = UIImageMake(@"white_background");
   [self.navigationController.navigationBar setBackgroundImage:image
                                                 forBarMetrics:UIBarMetricsDefault];
+  [self.bottomBtn setTitleColor:UIColor.qd_mainTextColor forState:UIControlStateNormal];
   [self setNeedsStatusBarAppearanceUpdate];
 }
 
@@ -294,6 +279,9 @@ updateResultsForSearchString:(NSString *)searchString {
                          resizingMode:UIImageResizingModeStretch];
   [self.navigationController.navigationBar setBackgroundImage:image
                                                 forBarMetrics:UIBarMetricsDefault];
+  [self.bottomBtn setTitleColor:UIColor.qd_backgroundColor forState:UIControlStateNormal];
+  self.navigationItem.leftBarButtonItems =
+  @[ NavLeftItemMake(self.bottomBtn), NavLeftItemMake(self.mySearchController.searchBar) ];
   [self setNeedsStatusBarAppearanceUpdate];
 }
 
@@ -305,6 +293,8 @@ updateResultsForSearchString:(NSString *)searchString {
   self.mySearchController.launchView                           = self.searchView;
   self.mySearchController.searchBar.qmui_usedAsTableHeaderView = YES;
   self.mySearchController.active                               = NO;
+  [self.mySearchController.tableView registerClass:[QMUITableViewCell class]
+                            forCellReuseIdentifier:@"cell"];
   [self.mySearchController.searchBar setValue:@"取消" forKey:@"cancelButtonText"];
   self.tableview = [[QMUITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
   self.tableview.estimatedRowHeight                     = 44;
@@ -314,6 +304,8 @@ updateResultsForSearchString:(NSString *)searchString {
   self.tableview.qmui_cacheCellHeightByKeyAutomatically = YES;
   self.tableview.scrollEnabled                          = YES;
   self.tableview.separatorStyle                         = UITableViewCellSelectionStyleNone;
+  self.tableview.backgroundColor                        = UIColorMakeWithHex(@"#fbfaf5");
+  //  self.tableview.backgroundColor = UIColor.lightGrayColor;
   [self.tableview registerClass:[QMUITableViewCell class] forCellReuseIdentifier:@"cell"];
   [self.tableview registerClass:[BannerCell class] forCellReuseIdentifier:@"bannercell"];
   [self.tableview registerClass:[CustomSectionCell class] forCellReuseIdentifier:@"sectioncell"];
@@ -336,15 +328,10 @@ updateResultsForSearchString:(NSString *)searchString {
   
   addView(self.view, self.tableview);
   [self.tableview mas_makeConstraints:^(MASConstraintMaker *make) {
-    //    make.width.equalTo(self.view);
-    //    make.top.equalTo(self.view.mas_top).offset(-100);
-    //    make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
-    //        make.width.equalTo(self.view);
     make.top.left.right.equalTo(self.view);
     make.bottom.equalTo(self.view.mas_safeAreaLayoutGuideBottom);
   }];
 }
-
 
 #pragma mark - 手势穿透
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
@@ -358,12 +345,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
   if (self.okFlag) {
     NSDictionary *userInfo = notification.userInfo;
     NSNumber *result       = userInfo[@"flag"];
-    if (result.boolValue) {
-      QMUILogInfo(@"result", @"true");
-    } else {
+    if (!result.boolValue) {
       self.hotCollectionview.scrollEnabled = YES;
       self.tableview.scrollEnabled         = NO;
-      //      self.curContentOffset = self.tableview.contentOffset;
       self.curContentOffset =
       CGPointMake(self.tableview.contentOffset.x, self.tableview.contentOffset.y - OFFSETY);
       [UIView animateWithDuration:1
@@ -372,17 +356,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
                        animations:^{
         [self.tableview
          setContentOffset:CGPointMake(0, self.totHeight - NavigationContentTop)
-         animated:NO];
+         animated:YES];
         
       }
                        completion:^(BOOL finished){
         
       }];
-      QMUICellHeightKeyCache *cache = self.tableview.qmui_currentCellHeightKeyCache;
-      for (int i = 0; i < 5; ++i) {
-        QMUILogInfo(@"xxx", @"section %d:%f", i, [cache heightForKey:@(i)]);
-      }
-      QMUILogInfo(@"result", @"false,height=%f", self.totHeight);
       self.okFlag = false;
     }
   } else {
@@ -399,17 +378,15 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView
                      withVelocity:(CGPoint)velocity
               targetContentOffset:(inout CGPoint *)targetContentOffset {
-//  QMUILogInfo(@"scroll will end", @"will end");
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//  QMUILogInfo(@"scroll will begin", @"will begin");
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
   //随滚动改变navigation bar view的透明度
   CGPoint point = scrollView.contentOffset;
-//  QMUILogInfo(@"scroll did", @"did scroll");
+  //  QMUILogInfo(@"scroll did", @"did scroll");
   if (point.y > self.totHeight - NavigationContentTop) {
     [[NSNotificationCenter defaultCenter] postNotificationName:TOPNOTIFICATION
                                                         object:nil
@@ -420,4 +397,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:
   [self.navigationController.navigationBar.qmui_backgroundView
    setAlpha:(point.y) / NavigationBarHeight];
 }
+
+#pragma mark - QMUINavigationController Delegate
+//- (UIImage *)navigationBarBackgroundImage{
+//  return UIImageMake(@"nav_background");
+//}
 @end

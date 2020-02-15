@@ -8,6 +8,7 @@
 
 #import "MainTabController.h"
 #import "MainController.h"
+#import "CityController.h"
 @interface MainTabController (){
   NSArray *navArr;
 }
@@ -24,7 +25,10 @@
 //  }
   MainController *con = [MainController new];
   QMUINavigationController *nav = [[QMUINavigationController alloc] initWithRootViewController:con];
-  self.viewControllers = @[nav];
+  QMUINavigationController *nav2 = [[QMUINavigationController alloc] initWithRootViewController:[CityController new]];
+//  nav.tabBarItem.title=@"首页";
+//  nav2.tabBarItem.title = @"city";
+  self.viewControllers = @[nav2];
 }
 
 - (QMUINavigationController*)generateRootNavWithControllerName:(NSString*)name title:(NSString*)title image:(UIImage*)image {

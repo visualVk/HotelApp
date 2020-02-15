@@ -266,6 +266,11 @@ static UIImage *disclosureIndicatorImageDark;
 
 #pragma mark - <QDThemeProtocol>
 
+- (UIColor *)themeCustomBackgroundColor{
+//    return UIColorMakeWithHex(@"#fbfaf5");
+  return UIColorMakeWithHex(@"#fbfaf5");
+}
+
 - (UIColor *)themeBackgroundColor {
     return UIColorWhite;
 }

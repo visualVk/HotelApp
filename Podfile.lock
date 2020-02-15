@@ -330,7 +330,6 @@ PODS:
   - TYCyclePagerView (1.2.0)
   - WMZBanner (1.1.0):
     - SDWebImage
-  - WSLWaterFlowLayout (1.0.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
@@ -347,7 +346,6 @@ DEPENDENCIES:
   - TIMFlowView
   - TYCyclePagerView
   - WMZBanner
-  - WSLWaterFlowLayout
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
@@ -365,7 +363,6 @@ SPEC REPOS:
     - TIMFlowView
     - TYCyclePagerView
     - WMZBanner
-    - WSLWaterFlowLayout
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
@@ -382,8 +379,7 @@ SPEC CHECKSUMS:
   TIMFlowView: 4a3fde9e9673a9cf88498e672795a1996459480b
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   WMZBanner: fb8f5905097d76d54bf780087b3f131071bfe773
-  WSLWaterFlowLayout: 37cfcb9c483b24144cd5c34c2cef4586ae6eef97
 
-PODFILE CHECKSUM: d73d2f3dd45094dccf4d3ff82eb84625f62c7cf5
+PODFILE CHECKSUM: d2cf2967663075cccf5614bfdd68519722498027
 
 COCOAPODS: 1.8.4

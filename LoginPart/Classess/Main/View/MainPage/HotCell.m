@@ -8,10 +8,12 @@
 
 #import "HotCell.h"
 #import "MarkUtils.h"
+#define BOTTOMHEIGHT DEVICE_HEIGHT / 12
+#define DEFAULTPINK UIColorMakeWithHex(@"#FEB692")
 #pragma mark - hot content cell
 @interface HotContentCell : UICollectionViewCell <GenerateEntityDelegate>
 @property (nonatomic, strong) UIImageView *imageview;
-@property (nonatomic, strong) UIView *bottomView;
+@property (nonatomic, strong) UIImageView *bottomView;
 @property (nonatomic, strong) UILabel *title;
 @property (nonatomic, strong) QMUILabel *placeholder;
 @end
@@ -28,22 +30,25 @@
 }
 
 - (void)generateRootView {
-  UIView *superview                   = self.contentView;
-  self.imageview                      = [UIImageView new];
-  self.imageview.contentMode          = QMUIImageResizingModeScaleAspectFill;
-  self.bottomView                     = [UIView new];
-  self.bottomView.backgroundColor     = UIColor.qd_backgroundColor;
-  self.title                          = [UILabel new];
-  self.title.font                     = UIFontBoldMake(TITLEFONTSIZE);
-  self.title.text                     = @"温州万达";
-  self.title.textColor                = UIColor.qd_mainTextColor;
-  self.placeholder                    = [QMUILabel new];
-  self.placeholder.contentEdgeInsets  = UIEdgeInsetsMake(-2, 2, 2, -2);
-  self.placeholder.font               = UIFontMake(TITLEPLACE);
-  self.placeholder.text               = @"舒适的温州";
-  self.placeholder.textColor          = UIColor.qd_backgroundColor;
-  self.placeholder.backgroundColor    = UIColor.qd_tintColor;
-  self.placeholder.layer.cornerRadius = 2;
+  UIView *superview                    = self.contentView;
+  self.imageview                       = [UIImageView new];
+  self.imageview.contentMode           = QMUIImageResizingModeScaleAspectFill;
+  self.bottomView                      = [UIImageView new];
+  self.bottomView.contentMode          = QMUIImageResizingModeScaleAspectFill;
+  self.bottomView.image                = UIImageMake(@"pink_gradient");
+  self.bottomView.backgroundColor      = UIColor.qd_backgroundColor;
+  self.title                           = [UILabel new];
+  self.title.font                      = UIFontBoldMake(TITLEFONTSIZE);
+  self.title.text                      = @"温州万达";
+  self.title.textColor                 = UIColor.qd_backgroundColor;
+  self.placeholder                     = [QMUILabel new];
+  self.placeholder.contentEdgeInsets   = UIEdgeInsetsMake(2, 2, 2, 2);
+  self.placeholder.font                = UIFontMake(TITLEPLACE);
+  self.placeholder.text                = @"舒适的温州 ";
+  self.placeholder.textColor           = DEFAULTPINK;
+  self.placeholder.backgroundColor     = UIColor.qd_backgroundColor;
+  self.placeholder.layer.cornerRadius  = BOTTOMHEIGHT / 20;
+  self.placeholder.layer.masksToBounds = YES;
   
   superview.mas_key      = @"superview";
   self.imageview.mas_key = @"imageview";
@@ -63,6 +68,7 @@
   
   [self.bottomView mas_updateConstraints:^(MASConstraintMaker *make) {
     make.left.right.equalTo(self.imageview);
+    make.height.equalTo(@(BOTTOMHEIGHT));
     make.bottom.equalTo(superview);
   }];
   
@@ -72,32 +78,36 @@
   }];
   
   [self.placeholder mas_updateConstraints:^(MASConstraintMaker *make) {
-    make.left.right.equalTo(self.title);
-    make.top.greaterThanOrEqualTo(self.title.mas_bottom).offset(0.5 * SPACE);
+    make.left.equalTo(self.title);
+    make.top.equalTo(self.title.mas_bottom).offset(0.5 * SPACE);
     make.bottom.equalTo(self.bottomView).offset(-0.5 * SPACE);
   }];
   
-  [self.bottomView
-   mas_updateConstraints:^(MASConstraintMaker *make) { make.bottom.equalTo(superview); }];
+  UIView *shadowView = [UIView new];
+  insertViewBelow(self, shadowView, superview);
+  [shadowView mas_makeConstraints:^(MASConstraintMaker *make) { make.edges.equalTo(superview); }];
 }
 
 @end
 
 #pragma mark - hot cell
 #import <MJRefresh/MJRefresh.h>
-#import <WSLWaterFlowLayout/WSLWaterFlowLayout.h>
+//#import <WSLWaterFlowLayout/WSLWaterFlowLayout.h>
+#import "WSLWaterFlowLayout.h"
 #import "FooterEmptyView.h"
+#import "HotHeaderView.h"
 #import "NSObject+BlockSEL.h"
-#import "TitleCell.h"
 #define HOTCONTENTCELL @"hotecontentcell"
 #define TOPTITLECELL @"toptitlecell"
 #define HEADERVIEW @"headerview"
 #define FOOTERVIEW @"footerview"
-#define FIRSTCELLHEIGHT DEVICE_HEIGHT / 7
-#define SECONDCELLHEIGHT DEVICE_HEIGHT / 6
-#define THIRDCELLHEIGHT DEVICE_HEIGHT / 5
+#define FIRSTCELLHEIGHT DEVICE_HEIGHT / 5
+#define SECONDCELLHEIGHT DEVICE_HEIGHT / 4
+#define THIRDCELLHEIGHT DEVICE_HEIGHT / 3
+#define BORDERRADIUS DEVICE_HEIGHT / 100
 #define COL 2
 #define SEC 2
+#define ITEMWIDTH (DEVICE_WIDTH - 2 * SPACE) / 4
 #define BOTTOMNOTIFICATION @"bottomnotification"
 @interface HotCell () <UICollectionViewDelegate, UICollectionViewDataSource,
 WSLWaterFlowLayoutDelegate, GenerateEntityDelegate> {
@@ -133,7 +143,7 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate> {
   self.userInteractionEnabled = true;
   self.selectionStyle         = UITableViewCellSelectionStyleNone;
   UIView *superview           = self.contentView;
-  
+  self.backgroundColor        = UIColor.clearColor;
   addView(self.contentView, self.collectionview);
   UIWindow *window = UIApplication.sharedApplication.delegate.window;
   QMUILogInfo(@"window", @"top:%f,bottom:%f", window.safeAreaInsets.top,
@@ -141,17 +151,18 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate> {
   [self.collectionview mas_makeConstraints:^(MASConstraintMaker *make) {
     make.top.equalTo(superview);
     make.centerX.equalTo(superview);
-    make.width.equalTo(@(DEVICE_WIDTH - 2 * SPACE));
-    make.height.equalTo(@(DEVICE_HEIGHT - 88 - 83));
-    make.bottom.equalTo(superview);
+    make.width.equalTo(@(DEVICE_WIDTH));
+    make.height.equalTo(@(DEVICE_HEIGHT - NavigationContentTop - TabBarHeight));
+    make.bottom.equalTo(superview).offset(-SPACE);
   }];
 }
 #pragma mark - 懒加载 collection view
 - (UICollectionView *)collectionview {
   if (!_collectionview) {
-    WSLWaterFlowLayout *layout = [[WSLWaterFlowLayout alloc] init];
-    layout.delegate            = self;
-    layout.flowLayoutStyle     = WSLWaterFlowVerticalEqualWidth;
+    WSLWaterFlowLayout *layout   = [[WSLWaterFlowLayout alloc] init];
+    layout.delegate              = self;
+    layout.flowLayoutStyle       = WSLWaterFlowVerticalEqualWidth;
+    _collectionview.scrollsToTop = YES;
     _collectionview =
     [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionview.scrollEnabled                = false;
@@ -159,8 +170,7 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate> {
     _collectionview.backgroundColor              = UIColor.qd_backgroundColor;
     _collectionview.delegate                     = self;
     _collectionview.dataSource                   = self;
-    [_collectionview registerClass:[TitleCell class] forCellWithReuseIdentifier:TOPTITLECELL];
-    [_collectionview registerClass:[TitleCell class]
+    [_collectionview registerClass:[HotHeaderView class]
         forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                withReuseIdentifier:HEADERVIEW];
     [_collectionview registerClass:[HotContentCell class]
@@ -205,6 +215,20 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate> {
     HotContentCell *hcCell = [collectionView dequeueReusableCellWithReuseIdentifier:HOTCONTENTCELL
                                                                        forIndexPath:indexPath];
     hcCell.imageview.image = UIImageMake(@"launch_background");
+    
+    hcCell.contentView.layer.cornerRadius  = BORDERRADIUS;
+    hcCell.contentView.layer.borderColor   = [UIColor clearColor].CGColor;
+    hcCell.contentView.layer.masksToBounds = YES;
+    
+    hcCell.layer.shadowColor   = UIColor.qd_mainTextColor.CGColor;
+    hcCell.layer.shadowOffset  = CGSizeMake(0, 1);
+    hcCell.layer.shadowRadius  = BORDERRADIUS;
+    hcCell.layer.shadowOpacity = 0.25f;
+    hcCell.layer.masksToBounds = NO;
+    hcCell.layer.shadowPath =
+    [UIBezierPath bezierPathWithRoundedRect:hcCell.bounds
+                               cornerRadius:hcCell.contentView.layer.cornerRadius]
+    .CGPath;
     return hcCell;
   }
   
@@ -216,10 +240,10 @@ WSLWaterFlowLayoutDelegate, GenerateEntityDelegate> {
                                  atIndexPath:(NSIndexPath *)indexPath {
   if (indexPath.section == 0) {
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-      TitleCell *titleHeader = [collectionView
-                                dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
-                                withReuseIdentifier:HEADERVIEW
-                                forIndexPath:indexPath];
+      HotHeaderView *titleHeader = [collectionView
+                                    dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader
+                                    withReuseIdentifier:HEADERVIEW
+                                    forIndexPath:indexPath];
       return titleHeader;
     } else {
       FooterEmptyView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:kind
@@ -239,7 +263,9 @@ sizeForFooterViewInSection:(NSInteger)section {
 
 - (CGSize)waterFlowLayout:(WSLWaterFlowLayout *)waterFlowLayout
 sizeForHeaderViewInSection:(NSInteger)section {
-  if (section == 0) { return CGSizeMake(DEVICE_WIDTH - 2 * SPACE, DEVICE_HEIGHT / 25); }
+  if (section == 0) {
+    QMUILogInfo(@"hot cell",@"width=%f,height=%f",DEVICE_WIDTH,1.5*ITEMWIDTH + SPACE);
+    return CGSizeMake(DEVICE_WIDTH, 1.5 * ITEMWIDTH + SPACE); }
   return CGSizeZero;
 }
 
@@ -264,7 +290,7 @@ sizeForHeaderViewInSection:(NSInteger)section {
 }
 
 - (UIEdgeInsets)edgeInsetInWaterFlowLayout:(WSLWaterFlowLayout *)waterFlowLayout {
-  return UIEdgeInsetsMake(0, 0, 2, 0);
+  return UIEdgeInsetsMake(0, SPACE, SPACE, SPACE);
 }
 
 - (CGFloat)columnMarginInWaterFlowLayout:(WSLWaterFlowLayout *)waterFlowLayout {

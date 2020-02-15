@@ -123,6 +123,7 @@ UICollectionViewDelegate, JQCollectionViewAlignLayoutDelegate>
 }
 
 - (void)generateRootView {
+  self.backgroundColor = UIColor.clearColor;
   UIView *superview = self.contentView;
   addView(superview, self.collectionview);
   
@@ -152,7 +153,6 @@ UICollectionViewDelegate, JQCollectionViewAlignLayoutDelegate>
     layout.sectionInset                 = UIEdgeInsetsMake(0, 0, 2, 0);
     layout.minimumLineSpacing           = 2;
     layout.minimumInteritemSpacing      = 2;
-//    layout.estimatedItemSize            = CGSizeMake(FIRSTTYPESECTIONWIDTH, FIRSTTYPESECTIONHEIGHT);
     _collectionview =
     [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
     _collectionview.scrollEnabled   = false;

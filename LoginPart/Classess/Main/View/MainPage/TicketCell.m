@@ -155,49 +155,14 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
 }
 
 - (void)generateRootView {
-  UIView *superview          = self.contentView;
-  superview.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-  //  UIView *background           = [UIView new];
-  //  UIView *shadowView           = [UIView new];
-  //  self.title                   = [UILabel new];
-  //  self.title.font              = UIFontBoldMake(17);
-  //  self.title.text              = @"xxx";
-  //  self.moreBtn                 = [QMUIButton new];
-  //  self.moreBtn.titleLabel.font = UIFontMake(14);
-  //  [self.moreBtn setTitle:@"更多" forState:UIControlStateNormal];
-  //  self.moreBtn.imagePosition = QMUIButtonImagePositionRight;
-  //  [self.moreBtn setImage:UIImageMake(@"right_arrow_small") forState:UIControlStateNormal];
-  //  [self.moreBtn setTitleColor:UIColor.qd_placeholderColor forState:UIControlStateNormal];
-  //  [self.moreBtn addTarget:self
-  //                   action:[self selectorBlock:^(id _Nonnull args) {
-  //    QMUILogInfo(@"more button", @"more button clicked !!!");
-  //  }]
-  //         forControlEvents:UIControlEventTouchUpInside];
-  superview.mas_key = @"superview";
-  //  addView(superview, background);
-  //  self.title.mas_key = @"title";
-  //  addView(superview, self.title);
-  //  self.moreBtn.mas_key = @"morebtn";
-  //  addView(superview, self.moreBtn);
+  self.backgroundColor        = UIColor.clearColor;
+  UIView *superview           = self.contentView;
+  superview.autoresizingMask  = UIViewAutoresizingFlexibleHeight;
+  superview.mas_key           = @"superview";
   self.collectionview.mas_key = @"collection view";
   addView(superview, self.collectionview);
   
   MASAttachKeys(self.collectionview, superview);
-  
-  //  [background mas_updateConstraints:^(MASConstraintMaker *make) {
-  //    make.top.equalTo(self.title).offset(-SPACE);
-  //    make.bottom.right.left.equalTo(self.collectionview);
-  //  }];
-  
-  //  [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
-  //    make.top.equalTo(superview).offset(SPACE).with.priorityHigh;
-  //    make.left.equalTo(superview).offset(1.5 * SPACE);
-  //  }];
-  //
-  //  [self.moreBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-  //    make.right.equalTo(superview).offset(-1.5 * SPACE);
-  //    make.bottom.equalTo(self.title);
-  //  }];
   
   [self.collectionview mas_makeConstraints:^(MASConstraintMaker *make) {
     make.top.equalTo(superview).with.offset(SPACE).with.priorityHigh;
@@ -207,29 +172,12 @@ JQCollectionViewAlignLayoutDelegate, GenerateEntityDelegate>
     .with.priorityHigh;
     make.bottom.equalTo(superview.mas_bottom).with.priorityHigh;
   }];
-  
-  //  background.backgroundColor     = UIColor.grayColor;
-  //  background.layer.cornerRadius  = (TOPCELLHEIGHT * 2 + BOTTOMCELLHEIGHT + 4) / 50;
-  //  background.layer.masksToBounds = true;
-  
-  //  shadowView.layer.shadowColor   = UIColor.qd_mainTextColor.CGColor;
-  //  shadowView.layer.shadowRadius  = 3;
-  //  shadowView.layer.shadowOpacity = 0.8;
-  //  shadowView.layer.shadowOffset  = CGSizeMake(3, 3);
-  //  shadowView.backgroundColor = UIColor.whiteColor;
-  //  shadowView.layer.masksToBounds = false;
-  //
-  //  [superview insertSubview:shadowView belowSubview:background];
-  //
-  //  UIEdgeInsets edge = UIEdgeInsetsMake(2, 2, 2, 2);
-  //  [shadowView mas_makeConstraints:^(MASConstraintMaker *make) {
-  //  make.edges.equalTo(background).with.insets(edge); }];
   CGFloat cellH = TOPCELLHEIGHT * 2 + BOTTOMCELLHEIGHT + 4 + TITLECELLHEIGHT;
   
   self.collectionview.layer.cornerRadius = cellH / 50;
   
   self.collectionview.layer.shadowOffset  = CGSizeMake(0, 1);
-  self.collectionview.layer.shadowColor   = [[UIColor blackColor] CGColor];
+  self.collectionview.layer.shadowColor   = UIColor.qd_mainTextColor.CGColor;
   self.collectionview.layer.shadowRadius  = 5;
   self.collectionview.layer.shadowOpacity = 0.25;
   self.collectionview.clipsToBounds       = false;

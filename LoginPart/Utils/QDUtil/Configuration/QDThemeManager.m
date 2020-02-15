@@ -10,6 +10,7 @@
 
 @interface QDThemeManager ()
 
+@property(nonatomic, strong) UIColor *qd_customBackgroundColor;
 @property(nonatomic, strong) UIColor *qd_backgroundColor;
 @property(nonatomic, strong) UIColor *qd_backgroundColorLighten;
 @property(nonatomic, strong) UIColor *qd_backgroundColorHighlighted;
@@ -47,6 +48,9 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        self.qd_customBackgroundColor = [UIColor qmui_colorWithThemeProvider:^UIColor * _Nonnull(__kindof QMUIThemeManager * _Nonnull manager, __kindof NSObject<NSCopying> * _Nullable identifier, __kindof NSObject<QDThemeProtocol> *theme) {
+            return theme.themeCustomBackgroundColor;
+        }];
         self.qd_backgroundColor = [UIColor qmui_colorWithThemeProvider:^UIColor * _Nonnull(__kindof QMUIThemeManager * _Nonnull manager, __kindof NSObject<NSCopying> * _Nullable identifier, NSObject<QDThemeProtocol> *theme) {
             return theme.themeBackgroundColor;
         }];
@@ -110,6 +114,10 @@
         instance = [[super allocWithZone:NULL] init];
     });
     return instance;
+}
+
++ (UIColor *)qd_customBackgroundColor{
+  return QDThemeManager.sharedInstance.qd_customBackgroundColor;
 }
 
 + (UIColor *)qd_backgroundColor {

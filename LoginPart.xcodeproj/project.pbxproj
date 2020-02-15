@@ -62,6 +62,11 @@
 		A729CE8123ED526600F0FBB9 /* AllNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A729CE8023ED526600F0FBB9 /* AllNavigationController.m */; };
 		A729CE8723ED739700F0FBB9 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A729CE8623ED739700F0FBB9 /* SearchView.m */; };
 		A729CE8A23ED764700F0FBB9 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = A729CE8923ED764700F0FBB9 /* MainController.m */; };
+		A73104DB23F7AC4E00E70946 /* WSLWaterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A73104D923F7AC4D00E70946 /* WSLWaterFlowLayout.m */; };
+		A73104EC23F833D300E70946 /* CityController.m in Sources */ = {isa = PBXBuildFile; fileRef = A73104EB23F833D300E70946 /* CityController.m */; };
+		A73104EF23F8382500E70946 /* GridCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73104EE23F8382500E70946 /* GridCityCell.m */; };
+		A75B1A4223F675A30007A7A1 /* HotHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A75B1A4123F675A30007A7A1 /* HotHeaderView.m */; };
+		A75B1A4523F691EF0007A7A1 /* HorizontalWithVerticalSectionLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A75B1A4423F691EF0007A7A1 /* HorizontalWithVerticalSectionLayout.m */; };
 		A760E8B323EE9D7F00746E8C /* ImageReFreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = A760E8B223EE9D7F00746E8C /* ImageReFreshHeader.m */; };
 		A7797A8323EFD88E00891DC6 /* BannerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7797A8223EFD88E00891DC6 /* BannerCell.m */; };
 		A7797A8D23F00DC500891DC6 /* TYCyclePagerViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7797A8C23F00DC500891DC6 /* TYCyclePagerViewCell.m */; };
@@ -231,6 +236,16 @@
 		A729CE8623ED739700F0FBB9 /* SearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		A729CE8823ED764700F0FBB9 /* MainController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainController.h; sourceTree = "<group>"; };
 		A729CE8923ED764700F0FBB9 /* MainController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
+		A73104D923F7AC4D00E70946 /* WSLWaterFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSLWaterFlowLayout.m; sourceTree = "<group>"; };
+		A73104DA23F7AC4D00E70946 /* WSLWaterFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSLWaterFlowLayout.h; sourceTree = "<group>"; };
+		A73104EA23F833D300E70946 /* CityController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CityController.h; sourceTree = "<group>"; };
+		A73104EB23F833D300E70946 /* CityController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CityController.m; sourceTree = "<group>"; };
+		A73104ED23F8382500E70946 /* GridCityCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GridCityCell.h; sourceTree = "<group>"; };
+		A73104EE23F8382500E70946 /* GridCityCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridCityCell.m; sourceTree = "<group>"; };
+		A75B1A4023F675A30007A7A1 /* HotHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HotHeaderView.h; sourceTree = "<group>"; };
+		A75B1A4123F675A30007A7A1 /* HotHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HotHeaderView.m; sourceTree = "<group>"; };
+		A75B1A4323F691EF0007A7A1 /* HorizontalWithVerticalSectionLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HorizontalWithVerticalSectionLayout.h; sourceTree = "<group>"; };
+		A75B1A4423F691EF0007A7A1 /* HorizontalWithVerticalSectionLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HorizontalWithVerticalSectionLayout.m; sourceTree = "<group>"; };
 		A760E8AD23EE877300746E8C /* MainPrefixHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainPrefixHeader.h; sourceTree = "<group>"; };
 		A760E8B123EE9D7F00746E8C /* ImageReFreshHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageReFreshHeader.h; sourceTree = "<group>"; };
 		A760E8B223EE9D7F00746E8C /* ImageReFreshHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageReFreshHeader.m; sourceTree = "<group>"; };
@@ -498,6 +513,8 @@
 		A72516FC23E841C1003B6E1F /* Supporting File */ = {
 			isa = PBXGroup;
 			children = (
+				A73104DA23F7AC4D00E70946 /* WSLWaterFlowLayout.h */,
+				A73104D923F7AC4D00E70946 /* WSLWaterFlowLayout.m */,
 				A725170423E84649003B6E1F /* DomainDefine.h */,
 				A725170323E84649003B6E1F /* UserDefine.h */,
 				A725176D23E846E8003B6E1F /* PrefixHeader.pch */,
@@ -763,8 +780,11 @@
 		A729CE7223ED49E300F0FBB9 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A75B1A4623F6BAE20007A7A1 /* trash */,
 				A729CE8823ED764700F0FBB9 /* MainController.h */,
 				A729CE8923ED764700F0FBB9 /* MainController.m */,
+				A73104EA23F833D300E70946 /* CityController.h */,
+				A73104EB23F833D300E70946 /* CityController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -772,30 +792,8 @@
 		A729CE7323ED49E700F0FBB9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A729CE8523ED739700F0FBB9 /* SearchView.h */,
-				A729CE8623ED739700F0FBB9 /* SearchView.m */,
-				A760E8B123EE9D7F00746E8C /* ImageReFreshHeader.h */,
-				A760E8B223EE9D7F00746E8C /* ImageReFreshHeader.m */,
-				A7797A8123EFD88E00891DC6 /* BannerCell.h */,
-				A7797A8223EFD88E00891DC6 /* BannerCell.m */,
-				A7797A8B23F00DC500891DC6 /* TYCyclePagerViewCell.h */,
-				A7797A8C23F00DC500891DC6 /* TYCyclePagerViewCell.m */,
-				A700161323F14519009BA6F8 /* ImageAndLabelCell.h */,
-				A700161423F14519009BA6F8 /* ImageAndLabelCell.m */,
-				A700161623F165D0009BA6F8 /* CustomSectionCell.h */,
-				A700161723F165D0009BA6F8 /* CustomSectionCell.m */,
-				A7FCC8E223F2706E00E240BD /* TicketCell.h */,
-				A7FCC8E323F2706E00E240BD /* TicketCell.m */,
-				A7FAEA2523F3BE7D001FA3AD /* TitleCell.h */,
-				A7FAEA2623F3BE7D001FA3AD /* TitleCell.m */,
-				A7FAEA2823F3D301001FA3AD /* SelectionCell.h */,
-				A7FAEA2923F3D301001FA3AD /* SelectionCell.m */,
-				A7FAEA2B23F3FA2B001FA3AD /* HotCell.h */,
-				A7FAEA2C23F3FA2B001FA3AD /* HotCell.m */,
-				A7FA942923F53E8E00D74D44 /* BannerView.h */,
-				A7FA942A23F53E8E00D74D44 /* BannerView.m */,
-				A7FA942F23F5AC4F00D74D44 /* FooterEmptyView.h */,
-				A7FA943023F5AC4F00D74D44 /* FooterEmptyView.m */,
+				A73104E623F82E8300E70946 /* CityPage */,
+				A75B1A4A23F6C8B10007A7A1 /* MainPage */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -843,6 +841,57 @@
 				A729CE8023ED526600F0FBB9 /* AllNavigationController.m */,
 			);
 			path = Nav;
+			sourceTree = "<group>";
+		};
+		A73104E623F82E8300E70946 /* CityPage */ = {
+			isa = PBXGroup;
+			children = (
+				A73104ED23F8382500E70946 /* GridCityCell.h */,
+				A73104EE23F8382500E70946 /* GridCityCell.m */,
+			);
+			path = CityPage;
+			sourceTree = "<group>";
+		};
+		A75B1A4623F6BAE20007A7A1 /* trash */ = {
+			isa = PBXGroup;
+			children = (
+				A75B1A4323F691EF0007A7A1 /* HorizontalWithVerticalSectionLayout.h */,
+				A75B1A4423F691EF0007A7A1 /* HorizontalWithVerticalSectionLayout.m */,
+			);
+			path = trash;
+			sourceTree = "<group>";
+		};
+		A75B1A4A23F6C8B10007A7A1 /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				A729CE8523ED739700F0FBB9 /* SearchView.h */,
+				A729CE8623ED739700F0FBB9 /* SearchView.m */,
+				A760E8B123EE9D7F00746E8C /* ImageReFreshHeader.h */,
+				A760E8B223EE9D7F00746E8C /* ImageReFreshHeader.m */,
+				A7797A8123EFD88E00891DC6 /* BannerCell.h */,
+				A7797A8223EFD88E00891DC6 /* BannerCell.m */,
+				A7797A8B23F00DC500891DC6 /* TYCyclePagerViewCell.h */,
+				A7797A8C23F00DC500891DC6 /* TYCyclePagerViewCell.m */,
+				A700161323F14519009BA6F8 /* ImageAndLabelCell.h */,
+				A700161423F14519009BA6F8 /* ImageAndLabelCell.m */,
+				A700161623F165D0009BA6F8 /* CustomSectionCell.h */,
+				A700161723F165D0009BA6F8 /* CustomSectionCell.m */,
+				A7FCC8E223F2706E00E240BD /* TicketCell.h */,
+				A7FCC8E323F2706E00E240BD /* TicketCell.m */,
+				A7FAEA2523F3BE7D001FA3AD /* TitleCell.h */,
+				A7FAEA2623F3BE7D001FA3AD /* TitleCell.m */,
+				A7FAEA2823F3D301001FA3AD /* SelectionCell.h */,
+				A7FAEA2923F3D301001FA3AD /* SelectionCell.m */,
+				A7FAEA2B23F3FA2B001FA3AD /* HotCell.h */,
+				A7FAEA2C23F3FA2B001FA3AD /* HotCell.m */,
+				A7FA942923F53E8E00D74D44 /* BannerView.h */,
+				A7FA942A23F53E8E00D74D44 /* BannerView.m */,
+				A7FA942F23F5AC4F00D74D44 /* FooterEmptyView.h */,
+				A7FA943023F5AC4F00D74D44 /* FooterEmptyView.m */,
+				A75B1A4023F675A30007A7A1 /* HotHeaderView.h */,
+				A75B1A4123F675A30007A7A1 /* HotHeaderView.m */,
+			);
+			path = MainPage;
 			sourceTree = "<group>";
 		};
 		A7840FAE23E98D0100EA54F8 /* Register */ = {
@@ -1192,6 +1241,7 @@
 				A729CE8123ED526600F0FBB9 /* AllNavigationController.m in Sources */,
 				A725176223E846CE003B6E1F /* UIImage+Extend.m in Sources */,
 				A729CE8A23ED764700F0FBB9 /* MainController.m in Sources */,
+				A75B1A4523F691EF0007A7A1 /* HorizontalWithVerticalSectionLayout.m in Sources */,
 				A7797A8D23F00DC500891DC6 /* TYCyclePagerViewCell.m in Sources */,
 				A725179423E84A18003B6E1F /* ASFRPerson.m in Sources */,
 				A725171923E8469B003B6E1F /* QDUIHelper.m in Sources */,
@@ -1201,10 +1251,12 @@
 				A725176423E846CE003B6E1F /* IDInfoViewController.m in Sources */,
 				A7FAEA2723F3BE7D001FA3AD /* TitleCell.m in Sources */,
 				A725172623E846B7003B6E1F /* ColorFormatUtil.m in Sources */,
+				A73104EC23F833D300E70946 /* CityController.m in Sources */,
 				A725171B23E8469B003B6E1F /* QDCommonUI.m in Sources */,
 				A725176C23E846CE003B6E1F /* RectManager.m in Sources */,
 				A760E8B323EE9D7F00746E8C /* ImageReFreshHeader.m in Sources */,
 				A725179A23E84D46003B6E1F /* Users.m in Sources */,
+				A75B1A4223F675A30007A7A1 /* HotHeaderView.m in Sources */,
 				A725175C23E846CE003B6E1F /* FSDKFR.xcdatamodeld in Sources */,
 				A725172423E846B7003B6E1F /* RequestUtils.m in Sources */,
 				A729CE6723ED1EB200F0FBB9 /* ResetPasswordController.m in Sources */,
@@ -1213,6 +1265,7 @@
 				A729CE6E23ED476F00F0FBB9 /* MyScrollView.m in Sources */,
 				A7840FB123E98D1900EA54F8 /* RegisterController.m in Sources */,
 				A7840FC723E9D51D00EA54F8 /* ProtocalController.m in Sources */,
+				A73104DB23F7AC4E00E70946 /* WSLWaterFlowLayout.m in Sources */,
 				A7F9E2C223EAAE5C00A50C60 /* ProfileController.m in Sources */,
 				A700161823F165D0009BA6F8 /* CustomSectionCell.m in Sources */,
 				A7F9E2CC23EAF59F00A50C60 /* TextFieldAndButtonCell.m in Sources */,
@@ -1242,6 +1295,7 @@
 				A7F9E2C923EAF2D900A50C60 /* TextFieldCell.m in Sources */,
 				A72516C023E83DFA003B6E1F /* SceneDelegate.m in Sources */,
 				A725176A23E846CE003B6E1F /* IDInfo.m in Sources */,
+				A73104EF23F8382500E70946 /* GridCityCell.m in Sources */,
 				A72517A223E84E79003B6E1F /* UserViewModel.m in Sources */,
 				A700161523F14519009BA6F8 /* ImageAndLabelCell.m in Sources */,
 				A725171623E8469B003B6E1F /* DictUtils.m in Sources */,

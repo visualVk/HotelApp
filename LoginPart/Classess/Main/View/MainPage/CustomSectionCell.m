@@ -21,9 +21,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
   if (self = [super initWithFrame:frame]) {
     self.layer.shadowColor   = UIColor.qd_mainTextColor.CGColor;
-    self.layer.shadowOffset  = CGSizeMake(3, 3);
+    self.layer.shadowOffset  = CGSizeMake(0, 1);
     self.layer.shadowRadius  = 2;
-    self.layer.shadowOpacity = 0.8;
+    self.layer.shadowOpacity = 0.25;
     [self generateRootView];
   }
   return self;
@@ -63,12 +63,12 @@
     make.centerX.offset(0);
     make.left.right.equalTo(self.imageview);
   }];
-
+  
   [self layoutIfNeeded];
   
-  container.layer.cornerRadius = CGRectGetHeight(self.label.frame) * 0.5;
+  container.layer.cornerRadius  = DEVICE_HEIGHT / 100;
   container.layer.masksToBounds = true;
-  container.clipsToBounds = true;
+  container.clipsToBounds       = true;
 }
 
 @end
@@ -100,12 +100,13 @@ UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
 #pragma mark - generate root view
 - (void)generateRootView {
   // top bar view
-  UIView *topBarView  = [UIView new];
-  UIView *superview   = self.contentView;
-  self.selectionStyle = UITableViewCellSelectionStyleNone;
-  self.leftLabel      = [UILabel new];
-  self.leftLabel.font = UIFontBoldMake(16);
-  self.leftLabel.text = @"left";
+  self.backgroundColor = UIColor.clearColor;
+  UIView *topBarView   = [UIView new];
+  UIView *superview    = self.contentView;
+  self.selectionStyle  = UITableViewCellSelectionStyleNone;
+  self.leftLabel       = [UILabel new];
+  self.leftLabel.font  = UIFontBoldMake(16);
+  self.leftLabel.text  = @"left";
   
   addView(self.contentView, topBarView);
   addView(topBarView, self.leftLabel);
@@ -143,11 +144,11 @@ UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
   QMUICollectionViewPagingLayout *layout = [[QMUICollectionViewPagingLayout alloc]
                                             initWithStyle:QMUICollectionViewPagingLayoutStyleDefault];
   layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-  layout.itemSize        = CGSizeMake((CGRectGetWidth(UIScreen.mainScreen.bounds) - SPACE*2) / 2 * 0.8,
-                                      (CGRectGetWidth(UIScreen.mainScreen.bounds) - SPACE*2) / 2 * 0.8);
-    layout.minimumInteritemSpacing = 0;
-  layout.minimumLineSpacing = (DEVICE_WIDTH - SPACE*2) * 0.2;
-    layout.sectionInset            = UIEdgeInsetsMake(0, 0, 0, 0);
+  layout.itemSize = CGSizeMake((CGRectGetWidth(UIScreen.mainScreen.bounds) - SPACE * 2) / 2 * 0.8,
+                               (CGRectGetWidth(UIScreen.mainScreen.bounds) - SPACE * 2) / 2 * 0.8);
+  layout.minimumInteritemSpacing = 0;
+  layout.minimumLineSpacing      = (DEVICE_WIDTH - SPACE * 2) * 0.2;
+  layout.sectionInset            = UIEdgeInsetsMake(0, 0, 0, 0);
   self.collectionview =
   [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:layout];
   self.collectionview.layer.cornerRadius  = CGRectGetWidth(superview.bounds) / 5;
@@ -166,13 +167,10 @@ UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
     make.centerX.offset(0);
     make.left.mas_equalTo(self.contentView).offset(SPACE);
     make.right.mas_equalTo(self.contentView).offset(-SPACE);
-    make.height.greaterThanOrEqualTo(@((DEVICE_WIDTH - SPACE*2) * .4 + SPACE));
+    make.height.greaterThanOrEqualTo(@((DEVICE_WIDTH - SPACE * 2) * .4 + SPACE));
     make.bottom.equalTo(self.contentView);
     make.centerX.mas_equalTo(self.contentView);
   }];
-  
-  //    [self.contentView layoutIfNeeded];
-  NSLog(@"height:%f", CGRectGetHeight(self.contentView.frame));
 }
 
 - (UIImageView *)imageview {

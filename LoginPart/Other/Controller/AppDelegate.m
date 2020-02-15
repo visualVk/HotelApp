@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "CityController.h"
 #import "LoginController.h"
 #import "MainController.h"
 #import "MainTabController.h"
@@ -76,10 +77,7 @@
 
 #pragma mark - set window
 - (void)resetWindow {
-  [self configurateQmuiTheme];
-  if (@available(iOS 13.0, *)) {
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-  }
+  self.window           = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   Users *users          = [Users new];
   UIViewController *con = nil;
   if (!users || !users.username || !users.password || [@"" isEqualToString:users.username] ||
@@ -88,7 +86,19 @@
   } else {
     //    con = [MainController new];
     //    con = [[QMUINavigationController alloc] initWithRootViewController:con];
-    con = [MainTabController new];
+    QMUITabBarViewController *tabController = [QMUITabBarViewController new];
+    MainController *main = [MainController new];
+    QMUINavigationController *nav1 =
+    [[QMUINavigationController alloc] initWithRootViewController:main];
+    main.hidesBottomBarWhenPushed = false;
+    nav1.tabBarItem = [QDUIHelper tabBarItemWithTitle:@"首页" image:UIImageMake(@"icon_tabbar_uikit") selectedImage:UIImageMake(@"icon_tabbar_uikit_selected") tag:0];
+    CityController *city = [CityController new];
+    QMUINavigationController *nav2 =
+    [[QMUINavigationController alloc] initWithRootViewController:city];
+    city.hidesBottomBarWhenPushed = false;
+    nav2.tabBarItem = [QDUIHelper tabBarItemWithTitle:@"首页" image:UIImageMake(@"icon_tabbar_uikit") selectedImage:UIImageMake(@"icon_tabbar_uikit_selected") tag:1];
+    tabController.viewControllers = @[ nav1, nav2 ];
+    con                           = tabController;
   }
   //    LoginController *con           = [LoginController new];
   self.window.backgroundColor                           = UIColor.qd_backgroundColor;
@@ -101,6 +111,7 @@
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
   // Override point for customization after application launch.
+  [self configurateQmuiTheme];
   [self resetWindow];
   return YES;
 }

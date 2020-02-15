@@ -61,7 +61,7 @@ UICollectionViewDelegateFlowLayout>
   self.collectionview.layer.cornerRadius             = BannerHeight / 80;
   self.collectionview.scrollEnabled                  = NO;
   self.collectionview.showsHorizontalScrollIndicator = NO;
-  self.collectionview.backgroundColor                = UIColor.qd_backgroundColor;
+//  self.collectionview.backgroundColor                = UIColor.qd_backgroundColor;
   
   [self.collectionview registerClass:[ImageAndLabelCell class]
           forCellWithReuseIdentifier:@"recommondcell"];

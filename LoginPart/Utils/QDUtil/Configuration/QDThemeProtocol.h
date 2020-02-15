@@ -22,8 +22,11 @@
 /// 在通用背景色上的 item 点击高亮背景色，例如 cell 的 highlightedBackgroundColor
 - (UIColor *)themeBackgroundColorHighlighted;
 
-//search bar backgroun
--(UIColor *)themeSearchBarBackgroundColor;
+///search bar backgroun
+- (UIColor *)themeSearchBarBackgroundColor;
+
+/// 银牙白背景色
+- (UIColor *)themeCustomBackgroundColor;
 
 /// 主题色
 - (UIColor *)themeTintColor;
