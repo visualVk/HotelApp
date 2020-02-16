@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface GridCityCell : UICollectionViewCell
-
+@property(nonatomic, strong) QMUILabel *labelBtn;
+-(void)loadData;
 @end

@@ -62,6 +62,9 @@
 		A729CE8123ED526600F0FBB9 /* AllNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A729CE8023ED526600F0FBB9 /* AllNavigationController.m */; };
 		A729CE8723ED739700F0FBB9 /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = A729CE8623ED739700F0FBB9 /* SearchView.m */; };
 		A729CE8A23ED764700F0FBB9 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = A729CE8923ED764700F0FBB9 /* MainController.m */; };
+		A7309D6A23F8F6BA009C3A95 /* CityHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7309D6923F8F6BA009C3A95 /* CityHeaderView.m */; };
+		A7309D6D23F91541009C3A95 /* CollectionIndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7309D6C23F91541009C3A95 /* CollectionIndexView.m */; };
+		A7309D7123F94434009C3A95 /* CommonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A7309D7023F94434009C3A95 /* CommonCell.m */; };
 		A73104DB23F7AC4E00E70946 /* WSLWaterFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = A73104D923F7AC4D00E70946 /* WSLWaterFlowLayout.m */; };
 		A73104EC23F833D300E70946 /* CityController.m in Sources */ = {isa = PBXBuildFile; fileRef = A73104EB23F833D300E70946 /* CityController.m */; };
 		A73104EF23F8382500E70946 /* GridCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A73104EE23F8382500E70946 /* GridCityCell.m */; };
@@ -236,6 +239,12 @@
 		A729CE8623ED739700F0FBB9 /* SearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
 		A729CE8823ED764700F0FBB9 /* MainController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainController.h; sourceTree = "<group>"; };
 		A729CE8923ED764700F0FBB9 /* MainController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
+		A7309D6823F8F6BA009C3A95 /* CityHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CityHeaderView.h; sourceTree = "<group>"; };
+		A7309D6923F8F6BA009C3A95 /* CityHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CityHeaderView.m; sourceTree = "<group>"; };
+		A7309D6B23F91541009C3A95 /* CollectionIndexView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CollectionIndexView.h; sourceTree = "<group>"; };
+		A7309D6C23F91541009C3A95 /* CollectionIndexView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CollectionIndexView.m; sourceTree = "<group>"; };
+		A7309D6F23F94434009C3A95 /* CommonCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommonCell.h; sourceTree = "<group>"; };
+		A7309D7023F94434009C3A95 /* CommonCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommonCell.m; sourceTree = "<group>"; };
 		A73104D923F7AC4D00E70946 /* WSLWaterFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSLWaterFlowLayout.m; sourceTree = "<group>"; };
 		A73104DA23F7AC4D00E70946 /* WSLWaterFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSLWaterFlowLayout.h; sourceTree = "<group>"; };
 		A73104EA23F833D300E70946 /* CityController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CityController.h; sourceTree = "<group>"; };
@@ -773,6 +782,8 @@
 			children = (
 				A7FA942C23F5530600D74D44 /* MainTabController.h */,
 				A7FA942D23F5530600D74D44 /* MainTabController.m */,
+				A7309D6B23F91541009C3A95 /* CollectionIndexView.h */,
+				A7309D6C23F91541009C3A95 /* CollectionIndexView.m */,
 			);
 			path = Expand;
 			sourceTree = "<group>";
@@ -848,6 +859,10 @@
 			children = (
 				A73104ED23F8382500E70946 /* GridCityCell.h */,
 				A73104EE23F8382500E70946 /* GridCityCell.m */,
+				A7309D6823F8F6BA009C3A95 /* CityHeaderView.h */,
+				A7309D6923F8F6BA009C3A95 /* CityHeaderView.m */,
+				A7309D6F23F94434009C3A95 /* CommonCell.h */,
+				A7309D7023F94434009C3A95 /* CommonCell.m */,
 			);
 			path = CityPage;
 			sourceTree = "<group>";
@@ -1254,6 +1269,7 @@
 				A73104EC23F833D300E70946 /* CityController.m in Sources */,
 				A725171B23E8469B003B6E1F /* QDCommonUI.m in Sources */,
 				A725176C23E846CE003B6E1F /* RectManager.m in Sources */,
+				A7309D7123F94434009C3A95 /* CommonCell.m in Sources */,
 				A760E8B323EE9D7F00746E8C /* ImageReFreshHeader.m in Sources */,
 				A725179A23E84D46003B6E1F /* Users.m in Sources */,
 				A75B1A4223F675A30007A7A1 /* HotHeaderView.m in Sources */,
@@ -1280,6 +1296,7 @@
 				A725171A23E8469B003B6E1F /* UIImageEffects.m in Sources */,
 				A725172523E846B7003B6E1F /* Utility.m in Sources */,
 				A725176523E846CE003B6E1F /* AVCaptureViewController.m in Sources */,
+				A7309D6A23F8F6BA009C3A95 /* CityHeaderView.m in Sources */,
 				A725179023E849F6003B6E1F /* ASFRManager.m in Sources */,
 				A7FA942B23F53E8E00D74D44 /* BannerView.m in Sources */,
 				A7FAEA2323F3ACB0001FA3AD /* ImageUtils.m in Sources */,
@@ -1301,6 +1318,7 @@
 				A725171623E8469B003B6E1F /* DictUtils.m in Sources */,
 				A729CE6423ED152E00F0FBB9 /* FindPasswordController.m in Sources */,
 				A725176623E846CE003B6E1F /* IDAuthViewController.m in Sources */,
+				A7309D6D23F91541009C3A95 /* CollectionIndexView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -211,14 +211,18 @@ QMUINavigationControllerDelegate> {
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-  BannerView *banner = [BannerView new];
-  banner.datas       = self.imageList;
-  [banner loadData];
-  return banner;
+  if (tableView == self.tableview) {
+    BannerView *banner = [BannerView new];
+    banner.datas       = self.imageList;
+    [banner loadData];
+    return banner;
+  }
+  return nil;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-  return ForthHeight + FifteenthHeight / 2;
+  if (tableView == self.tableview) { return ForthHeight + FifteenthHeight / 2; }
+  return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
@@ -293,6 +297,8 @@ updateResultsForSearchString:(NSString *)searchString {
   self.mySearchController.launchView                           = self.searchView;
   self.mySearchController.searchBar.qmui_usedAsTableHeaderView = YES;
   self.mySearchController.active                               = NO;
+  self.mySearchController.tableView.tableHeaderView =
+  [[UIView alloc] initWithFrame:CGRectMake(0, 0, DEVICE_WIDTH, NavigationContentTop)];
   [self.mySearchController.tableView registerClass:[QMUITableViewCell class]
                             forCellReuseIdentifier:@"cell"];
   [self.mySearchController.searchBar setValue:@"取消" forKey:@"cancelButtonText"];
