@@ -10,6 +10,7 @@
 #import "FaceController.h"
 #import "FindPasswordController.h"
 #import "LogoView.h"
+#import "MainTabController.h"
 #import "NSObject+BlockSEL.h"
 #import "RegisterController.h"
 #import "UserApi.h"
@@ -186,6 +187,10 @@ typedef void (^clickBlock)(void);
 - (void)login:(QMUIButton *)btn {
   self.users.username = self.usernameTX.text;
   self.users.password = self.passwordTX.text;
+  //暂时直接跳转
+  MainTabController *mainTab  = [MainTabController new];
+  mainTab.modalPresentationStyle = UIModalPresentationFullScreen;
+  [self presentViewController:mainTab animated:YES completion:^{}];
   [[RequestUtils shareManager] RequestPostWithUrl:FINDUSER
                                         Parameter:[DictUtils Object2Dict:self.users]
                                           Success:^(NSDictionary *_Nullable dict) {

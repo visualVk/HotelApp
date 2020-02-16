@@ -48,6 +48,7 @@
     _label.text              = @"温州";
     _label.backgroundColor   = UIColor.clearColor;
     _label.contentEdgeInsets = UIEdgeInsetsMake(0, 0, 0.5 * SPACE, 0);
+    _label.highlighted = false;
   }
   return _label;
 }
