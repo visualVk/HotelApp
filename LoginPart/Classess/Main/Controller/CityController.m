@@ -220,7 +220,7 @@ referenceSizeForHeaderInSection:(NSInteger)section {
            forControlEvents:UIControlEventTouchDragEnter];
   
   addView(self.view, self.collectionview);
-  
+  addView(self.view, self.indexView);
   [self.collectionview mas_makeConstraints:^(MASConstraintMaker *make) {
     make.left.right.equalTo(self.view);
     make.top.equalTo(self.view.mas_safeAreaLayoutGuideTop);
